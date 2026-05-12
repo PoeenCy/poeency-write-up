@@ -1,5 +1,5 @@
 baseURL = 'https://pau-portfolio.com/'
-languageCode = 'vi-vn'
+locale = 'vi-vn'
 title = 'Trần Thanh Nhã | Portfolio & Write-ups'
 theme = 'PaperMod'
 
