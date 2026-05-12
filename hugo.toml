@@ -1,78 +1,74 @@
 baseURL = 'https://poeency.github.io/poeency-write-up/'
-locale = 'vi-vn'
-title = 'Trần Thanh Nhã | Portfolio & Write-ups'
+locale = 'en-us'
+title = 'Nha Tran Thanh | Portfolio'
 theme = 'PaperMod'
 
 [params]
 env = "production"
-description = "Portfolio cá nhân và Write-up về An toàn thông tin, Blue Team, IoT Security và ứng dụng AI/ML (LSTM, CNN) trong phát hiện xâm nhập."
-author = "Trần Thanh Nhã (Poeency)"
+description = "Personal portfolio and technical write-ups focusing on Computer Networks, Cybersecurity, and AI applications."
+author = "Nha Tran Thanh (Poeency)"
 defaultTheme = "auto"
-ShowReadingTime = true
+ShowReadingTime = false
 ShowCodeCopyButtons = true
 ShowToc = true
+ShowBreadCrumbs = true
 
-# Thông tin cá nhân
 [params.profileMode]
 enabled = true
-title = "Trần Thanh Nhã (Poeency)"
-subtitle = "Cybersecurity Student | Blue Team Enthusiast | CTF Player"
-imageUrl = ""
-imageTitle = "Profile"
+title = "Nha Tran Thanh"
+subtitle = "Computer Networks Student  ·  Cybersecurity Enthusiast  ·  Ton Duc Thang University"
+imageUrl = "images/portfolio/profile.jpg"
+imageWidth = 160
+imageHeight = 160
+imageTitle = "Nha Tran Thanh"
 
 [[params.profileMode.buttons]]
-name = "Portfolio"
-url = "/portfolio/"
+name = "Blogs"
+url = "blogs/"
 
 [[params.profileMode.buttons]]
 name = "Write-ups"
-url = "/posts/"
+url = "write-ups/"
 
 [[params.profileMode.buttons]]
 name = "About"
-url = "/about/"
+url = "about/"
 
-# Thông tin liên hệ và mạng xã hội
 [[params.socialIcons]]
 name = "email"
 url = "mailto:nhatran.network@gmail.com"
 
 [[params.socialIcons]]
 name = "github"
-url = "https://github.com/tranthanhnh"
+url = "https://github.com/PoeenCy"
 
 [[params.socialIcons]]
 name = "linkedin"
-url = "https://linkedin.com/in/tranthanhnh"
+url = "https://www.linkedin.com/in/nha-tran-thanh-95a67835b/"
 
-# Menu chính
 [menu]
 [[menu.main]]
-identifier = "home"
-name = "Home"
-url = "/"
-weight = 5
-
-[[menu.main]]
-identifier = "portfolio"
-name = "Portfolio"
-url = "/portfolio/"
+identifier = "blogs"
+name = "Blogs"
+url = "blogs/"
 weight = 10
 
 [[menu.main]]
 identifier = "writeups"
 name = "Write-ups"
-url = "/posts/"
+url = "write-ups/"
 weight = 20
 
 [[menu.main]]
 identifier = "about"
 name = "About"
-url = "/about/"
+url = "about/"
 weight = 30
 
-# Cấu hình markup
 [markup]
+[markup.goldmark.renderer]
+unsafe = true
+
 [markup.highlight]
 style = "monokai"
 lineNos = true

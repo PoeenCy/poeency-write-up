@@ -2,66 +2,32 @@
 title = 'Home'
 +++
 
-# Xin chào! Tôi là Trần Thanh Nhã (Poeency) 👋
+---
 
-## Cybersecurity Student | Blue Team Enthusiast | CTF Player
+**Computer Networks · Cybersecurity · AI/ML for Security**
 
-Sinh viên năm 3 tại **Đại học Tôn Đức Thắng** với niềm đam mê về **An toàn thông tin phòng thủ** và **Phân tích lưu lượng mạng**.
+Third-year student at Ton Duc Thang University with hands-on research experience in network infrastructure, IoT vulnerability analysis, and AI-driven intrusion detection. Looking for internship opportunities in network security or systems administration.
 
 ---
 
-## 🎯 Chuyên môn chính
+**Publication**
 
-### 🔍 Network Analysis
-Phân tích lưu lượng mạng với **NFStream** và kiểm tra gói tin ở mức độ chi tiết
-
-### 🛡️ Security Operations  
-Phân tích log và SIEM với **Splunk**, giám sát và phát hiện mối đe dọa
-
-### 🤖 AI in Security
-Ứng dụng **Machine Learning** (LSTM, CNN) cho phát hiện xâm nhập mạng
-
-### 🔬 Digital Forensics
-Điều tra và phân tích bằng chứng số trong các vụ việc an ninh mạng
+*"An Artificial Intelligence Approach to Intrusion Detection in Smart Home IoT Environments"*
+Springer — ICCIES 2026 · Lead Author · [Read paper](https://link.springer.com/chapter/10.1007/978-3-032-21628-1_41)
 
 ---
 
-## 🏆 Thành tựu nổi bật
+**Key Work**
 
-### CyberKnight CTF
-**Technical Lead & Challenge Creator**
-- Quản lý hạ tầng kỹ thuật
-- Thiết kế 30+ security challenges
-- Tổ chức thành công nhiều cuộc thi với 200+ người chơi
-
-### CTF Competitor
-Tham gia các cuộc thi cấp quốc gia:
-- 🥇 Cybersecurity Student Contest Vietnam 2025
-- 🎯 FPT CTF, UIT CTF, TDTU CTF
+| Project | Area | Result |
+|---|---|---|
+| ESP32 BluFi Stack Overflow | Vulnerability Research | Reproduced & patched CVE NCC-BluFi-Ref-WXR in BLE firmware |
+| Edge–Cloud IDS (Springer) | AI / Network Security | 96.94% accuracy, 8.4 ms edge latency on CIC-IDS2017 |
+| WSN–LSTM Smart Parking | Simulation & AI | 2.8× network lifetime extension vs. LEACH |
+| NFStream CIC-IDS Pipeline | Data Engineering | End-to-end ML-ready PCAP pipeline for edge devices |
 
 ---
 
-## 🔬 Hướng nghiên cứu
+**Core Skills**
 
-- AI-driven Cybersecurity
-- Network Intrusion Detection
-- IoT Security
-- Blue Team Operations
-
----
-
-## 📚 Bài viết mới nhất
-
-Khám phá các write-up CTF, hướng dẫn kỹ thuật và nghiên cứu về an ninh mạng trong [Blog](/posts/) của tôi.
-
----
-
-## 📫 Liên hệ
-
-**Email**: [nhatran.network@gmail.com](mailto:nhatran.network@gmail.com)
-
-Đang tìm kiếm cơ hội **thực tập** trong lĩnh vực Cybersecurity để áp dụng kỹ năng phân tích vào môi trường thực tế.
-
----
-
-*"Security is not a product, but a process."* - Bruce Schneier
+`TCP/IP` `Routing & Switching` `Wireshark` `NFStream` `Python` `Mininet` `IoT Security` `TensorFlow` `CTF / Web Security` `Linux`
