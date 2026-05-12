@@ -9,7 +9,7 @@ Hướng dẫn nhanh để bắt đầu với portfolio Hugo của bạn.
 ```bash
 # Clone repository
 git clone <your-repo-url>
-cd pau-portfolio
+cd poeency-portfolio
 
 # Update theme submodule
 git submodule update --init --recursive
@@ -148,7 +148,7 @@ Chi tiết xem: [DEPLOYMENT.md](DEPLOYMENT.md)
 ## 📁 Cấu trúc thư mục
 
 ```
-pau-portfolio/
+poeency-portfolio/
 ├── content/              # Nội dung website
 │   ├── posts/           # Blog posts
 │   ├── portfolio/       # Portfolio items

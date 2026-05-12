@@ -25,7 +25,7 @@ Website này bao gồm:
 
 ```bash
 git clone <repository-url>
-cd pau-portfolio
+cd poeency-portfolio
 git submodule update --init --recursive
 ```
 
@@ -62,7 +62,7 @@ File build sẽ được tạo trong thư mục `public/`
 ## 📂 Cấu trúc thư mục
 
 ```
-pau-portfolio/
+poeency-portfolio/
 ├── content/
 │   ├── about.md          # Trang giới thiệu
 │   ├── portfolio/        # Các dự án

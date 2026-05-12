@@ -2,7 +2,7 @@
 title = 'Home'
 +++
 
-# Xin chào! Tôi là Trần Thanh Nhã (Pâu) 👋
+# Xin chào! Tôi là Trần Thanh Nhã (Poeency) 👋
 
 ## Cybersecurity Student | Blue Team Enthusiast | CTF Player
 

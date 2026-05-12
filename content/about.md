@@ -7,7 +7,7 @@ showToc = false
 
 ## Giới thiệu
 
-Xin chào! Tôi là **Trần Thanh Nhã** (Pâu), sinh viên năm 3 tại Đại học Tôn Đức Thắng với niềm đam mê mãnh liệt về an toàn thông tin phòng thủ và phân tích lưu lượng mạng.
+Xin chào! Tôi là **Trần Thanh Nhã** (Poeency), sinh viên năm 3 tại Đại học Tôn Đức Thắng với niềm đam mê mãnh liệt về an toàn thông tin phòng thủ và phân tích lưu lượng mạng.
 
 ## Lĩnh vực chuyên môn
 

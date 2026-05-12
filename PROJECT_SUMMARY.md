@@ -4,7 +4,7 @@
 
 ### 1. Khởi tạo dự án Hugo ✓
 - ✅ Cài đặt Hugo Extended v0.161.1
-- ✅ Khởi tạo site Hugo với tên `pau-portfolio`
+- ✅ Khởi tạo site Hugo với tên `poeency-portfolio`
 - ✅ Thêm theme PaperMod qua Git submodule
 - ✅ Cấu hình Git repository
 
@@ -97,7 +97,7 @@
 ```bash
 # Clone repository
 git clone <repo-url>
-cd pau-portfolio
+cd poeency-portfolio
 
 # Update submodules
 git submodule update --init --recursive
@@ -133,7 +133,7 @@ git push                      # GitHub Pages (auto)
 ## 📁 Cấu trúc Dự án
 
 ```
-pau-portfolio/
+poeency-portfolio/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # GitHub Actions workflow

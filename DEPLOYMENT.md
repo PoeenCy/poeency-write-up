@@ -10,7 +10,7 @@
 # Tạo repo mới trên GitHub với tên: username.github.io
 # Hoặc tên bất kỳ nếu muốn deploy ở subdomain
 
-git remote add origin https://github.com/username/pau-portfolio.git
+git remote add origin https://github.com/username/poeency-portfolio.git
 git push -u origin master
 ```
 
@@ -73,7 +73,7 @@ jobs:
 2. Source: GitHub Actions
 3. Save
 
-**URL**: `https://username.github.io/pau-portfolio/`
+**URL**: `https://username.github.io/poeency-portfolio/`
 
 ---
 
@@ -154,14 +154,14 @@ Hoặc import từ GitHub tại [vercel.com](https://vercel.com)
 hugo --minify
 
 # Copy to web server
-scp -r public/* user@server:/var/www/pau-portfolio/
+scp -r public/* user@server:/var/www/poeency-portfolio/
 
 # Nginx config
 server {
     listen 80;
-    server_name pau-portfolio.com;
+    server_name poeency-portfolio.com;
     
-    root /var/www/pau-portfolio;
+    root /var/www/poeency-portfolio;
     index index.html;
     
     location / {
@@ -170,7 +170,7 @@ server {
 }
 
 # Enable site
-sudo ln -s /etc/nginx/sites-available/pau-portfolio /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/poeency-portfolio /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -192,8 +192,8 @@ EXPOSE 80
 
 ```bash
 # Build and run
-docker build -t pau-portfolio .
-docker run -d -p 80:80 pau-portfolio
+docker build -t poeency-portfolio .
+docker run -d -p 80:80 poeency-portfolio
 ```
 
 ---
