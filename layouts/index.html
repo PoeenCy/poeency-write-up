@@ -1,0 +1,133 @@
+{{ define "main" }}
+
+{{- $profileImg := "images/portfolio/profile.jpg" }}
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<div class="hp-hero">
+  <img class="hp-avatar" src="{{ $profileImg | absURL }}" alt="Nha Tran Thanh" draggable="false">
+
+  <div class="hp-hero-content">
+    <h1 class="hp-name">Nha Tran Thanh</h1>
+    <p class="hp-tagline">Tran Thanh Nha · PoeenCy · Ton Duc Thang University</p>
+
+    <p class="hp-bio">
+      Third-year student majoring in <strong>Computer Networks and Data Communications</strong>.
+      Specializing in <strong>Cyber Security</strong> and
+      <strong>System-level Networking</strong> — from network traffic analysis,
+      vulnerability research on embedded/IoT devices,
+      to AI applications for intrusion detection.
+      Published author in <strong>Springer (ICCIES 2026)</strong>.
+    </p>
+
+    <div class="hp-chips">
+      <span class="hp-chip">Network Security</span>
+      <span class="hp-chip">Cyber Security</span>
+      <span class="hp-chip">System-level Networking</span>
+      <span class="hp-chip">IoT / Embedded</span>
+      <span class="hp-chip">AI · IDS</span>
+    </div>
+
+    <div class="hp-social">
+      <a href="https://github.com/PoeenCy" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.468-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.3 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .322.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+        </svg>
+        github.com/PoeenCy
+      </a>
+      <a href="https://www.linkedin.com/in/nha-tran-thanh-95a67835b/" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+        </svg>
+        LinkedIn
+      </a>
+      <a href="mailto:nhatran.network@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+        nhatran.network@gmail.com
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ── NAV BUTTONS ────────────────────────────────────── -->
+<div class="hp-nav-buttons">
+  <a href="{{ " blogs/" | relURL }}" class="hp-btn hp-btn-primary">Blogs</a>
+  <a href="{{ " write-ups/" | relURL }}" class="hp-btn hp-btn-secondary">Write-ups</a>
+  <a href="{{ " about/" | relURL }}" class="hp-btn hp-btn-secondary">About Me</a>
+</div>
+
+<!-- ── PUBLICATION ────────────────────────────────────── -->
+<div class="hp-section">
+  <div class="hp-section-label">Publication</div>
+  <div class="hp-pub">
+    <div class="hp-pub-venue">Springer · ICCIES 2026 · Lead Author</div>
+    <a class="hp-pub-title" href="https://link.springer.com/chapter/10.1007/978-3-032-21628-1_41" target="_blank"
+      rel="noopener">
+      An Artificial Intelligence Approach to Intrusion Detection in Smart Home IoT Environments
+    </a>
+    <div class="hp-pub-stats">
+      <span class="hp-stat">96.94% Accuracy</span>
+      <span class="hp-stat">97.01% F1-score</span>
+      <span class="hp-stat">8.4 ms Edge Latency</span>
+      <span class="hp-stat">CIC-IDS2017</span>
+      <span class="hp-stat">LightGBM · CNN-LSTM · Raspberry Pi</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── SELECTED PROJECTS ──────────────────────────────── -->
+<div class="hp-section">
+  <div class="hp-section-label">Selected Projects</div>
+  <div class="hp-proj-list">
+
+    <div class="hp-proj-row">
+      <div class="hp-proj-left">
+        <a class="hp-proj-name" href="{{ " blogs/esp32-blufi-stack-overflow/" | relURL }}">ESP32 BluFi Stack
+          Overflow</a>
+        <span class="hp-proj-area">Vulnerability Research · IoT / Embedded</span>
+      </div>
+      <span class="hp-proj-result">Reproduced &amp; patched BLE buffer overflow (NCC-BluFi-Ref-WXR)</span>
+    </div>
+
+    <div class="hp-proj-row">
+      <div class="hp-proj-left">
+        <a class="hp-proj-name" href="{{ " blogs/edge-cloud-ids-aiot/" | relURL }}">Edge–Cloud IDS</a>
+        <span class="hp-proj-area">AI · Network Security · Springer</span>
+      </div>
+      <span class="hp-proj-result">96.94% accuracy on CIC-IDS2017</span>
+    </div>
+
+    <div class="hp-proj-row">
+      <div class="hp-proj-left">
+        <a class="hp-proj-name" href="{{ " blogs/hybrid-wsn-lstm-smartparking/" | relURL }}">WSN–LSTM Smart Parking</a>
+        <span class="hp-proj-area">Network Simulation · AI</span>
+      </div>
+      <span class="hp-proj-result">2.8× network lifetime vs. LEACH</span>
+    </div>
+
+    <div class="hp-proj-row">
+      <div class="hp-proj-left">
+        <a class="hp-proj-name" href="{{ " blogs/nfstream-cic-ids-pipeline/" | relURL }}">NFStream CIC-IDS Pipeline</a>
+        <span class="hp-proj-area">Data Engineering · Network Traffic</span>
+      </div>
+      <span class="hp-proj-result">End-to-end ML-ready PCAP flow extraction</span>
+    </div>
+
+    <div class="hp-proj-row">
+      <div class="hp-proj-left">
+        <a class="hp-proj-name" href="{{ " blogs/advanced-computer-networks-lab/" | relURL }}">Advanced Computer
+          Networks Lab</a>
+        <span class="hp-proj-area">Network Infrastructure</span>
+      </div>
+      <span class="hp-proj-result">Enterprise routing topology &amp; protocol analysis</span>
+    </div>
+
+  </div>
+</div>
+
+{{ end }}

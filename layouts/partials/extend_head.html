@@ -1,0 +1,304 @@
+<style>
+    /* ── Homepage custom styles ─────────────────────────── */
+
+    .hp-hero {
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+        padding: 2rem 0 1.5rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 2rem;
+    }
+
+    .hp-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        display: block;
+        border: 3px solid var(--border);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .hp-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0 0 0.2rem;
+        color: var(--primary);
+    }
+
+    .hp-tagline {
+        font-size: 0.875rem;
+        color: var(--secondary);
+        margin: 0 0 0.9rem;
+    }
+
+    .hp-bio {
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--content);
+        margin: 0 0 1rem;
+    }
+
+    .hp-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .hp-chip {
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.15rem 0.55rem;
+        border-radius: var(--radius);
+        background: var(--code-bg);
+        color: var(--secondary);
+        border: 1px solid var(--border);
+    }
+
+    .hp-social {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+        align-items: center;
+    }
+
+    .hp-social a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.82rem;
+        color: var(--secondary);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .hp-social a:hover {
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    /* ── Nav buttons ─────────────────────────────────────── */
+    .hp-nav-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .hp-btn {
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.35rem 0.9rem;
+        border-radius: var(--radius);
+        text-decoration: none;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .hp-btn-primary {
+        background: var(--primary);
+        color: var(--theme) !important;
+    }
+
+    .hp-btn-primary:hover {
+        opacity: 0.85;
+        text-decoration: none;
+        color: var(--theme) !important;
+    }
+
+    .hp-btn-secondary {
+        background: var(--tertiary);
+        color: var(--primary) !important;
+    }
+
+    .hp-btn-secondary:hover {
+        opacity: 0.8;
+        text-decoration: none;
+        color: var(--primary) !important;
+    }
+
+    /* ── Section label ───────────────────────────────────── */
+    .hp-section {
+        margin-bottom: 2rem;
+    }
+
+    .hp-section-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--secondary);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Publication ─────────────────────────────────────── */
+    .hp-pub {
+        margin-bottom: 0.5rem;
+    }
+
+    .hp-pub-venue {
+        font-size: 0.8rem;
+        color: var(--secondary);
+        margin-bottom: 0.3rem;
+    }
+
+    .hp-pub-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--primary);
+        text-decoration: none;
+        line-height: 1.5;
+        display: inline;
+    }
+
+    .hp-pub-title:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
+    }
+
+    .hp-pub-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.6rem;
+    }
+
+    .hp-stat {
+        font-size: 0.75rem;
+        color: var(--secondary);
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 0.1rem 0.5rem;
+    }
+
+    /* ── Project list ────────────────────────────────────── */
+    .hp-proj-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hp-proj-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .hp-proj-row:last-child {
+        border-bottom: none;
+    }
+
+    .hp-proj-left {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+    }
+
+    .hp-proj-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--primary);
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hp-proj-name:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
+    }
+
+    .hp-proj-area {
+        font-size: 0.78rem;
+        color: var(--secondary);
+    }
+
+    .hp-proj-result {
+        font-size: 0.78rem;
+        color: var(--secondary);
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+        .hp-hero {
+            flex-direction: column;
+            gap: 1.25rem;
+            padding: 1.5rem 0 1.25rem;
+            text-align: center;
+        }
+
+        .hp-avatar {
+            width: 140px;
+            height: 140px;
+        }
+
+        .hp-hero-content {
+            width: 100%;
+        }
+
+        .hp-chips {
+            justify-content: center;
+        }
+
+        .hp-social {
+            justify-content: center;
+        }
+
+        .hp-nav-buttons {
+            flex-direction: column;
+        }
+
+        .hp-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .hp-proj-row {
+            flex-direction: column;
+            gap: 0.3rem;
+            align-items: flex-start;
+        }
+
+        .hp-proj-result {
+            white-space: normal;
+            font-style: italic;
+        }
+
+        .hp-proj-name {
+            white-space: normal;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .hp-avatar {
+            width: 130px;
+            height: 130px;
+        }
+
+        .hp-name {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .hp-avatar {
+            width: 140px;
+            height: 140px;
+        }
+
+        .hp-name {
+            font-size: 1.75rem;
+        }
+    }
+</style>

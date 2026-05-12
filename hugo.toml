@@ -6,6 +6,7 @@ theme = 'PaperMod'
 [params]
 env = "production"
 description = "Personal portfolio and technical write-ups focusing on Computer Networks, Cybersecurity, and AI applications."
+subtitle = "Sinh viên năm 3 · Mạng máy tính & Truyền thông dữ liệu · Định hướng Cyber Security & Network Systems"
 author = "Nha Tran Thanh (Poeency)"
 defaultTheme = "auto"
 ShowReadingTime = false
@@ -16,7 +17,7 @@ ShowBreadCrumbs = true
 [params.profileMode]
 enabled = true
 title = "Nha Tran Thanh"
-subtitle = "Computer Networks Student  ·  Cybersecurity Enthusiast  ·  Ton Duc Thang University"
+subtitle = "Sinh viên năm 3 · Mạng máy tính & Truyền thông dữ liệu · Định hướng Cyber Security & Network Systems"
 imageUrl = "images/portfolio/profile.jpg"
 imageWidth = 160
 imageHeight = 160
@@ -29,6 +30,10 @@ url = "blogs/"
 [[params.profileMode.buttons]]
 name = "Write-ups"
 url = "write-ups/"
+
+[[params.profileMode.buttons]]
+name = "Portfolio"
+url = "portfolio/"
 
 [[params.profileMode.buttons]]
 name = "About"
@@ -58,6 +63,12 @@ identifier = "writeups"
 name = "Write-ups"
 url = "write-ups/"
 weight = 20
+
+[[menu.main]]
+identifier = "portfolio"
+name = "Portfolio"
+url = "portfolio/"
+weight = 25
 
 [[menu.main]]
 identifier = "about"

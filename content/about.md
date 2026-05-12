@@ -11,9 +11,7 @@ showToc = true
        style="border-radius:50%; width:150px; height:150px; object-fit:cover; box-shadow:0 4px 16px rgba(0,0,0,0.18);">
 </div>
 
-I am **Nha Tran Thanh**, a third-year undergraduate at Ton Duc Thang University majoring in Computer Networks and Data Communication.
-
-My technical focus sits at the intersection of network infrastructure and cybersecurity. I believe strong networking fundamentals are the backbone of any meaningful security work — so I invest equally in both: understanding how systems communicate, and how they can be compromised or protected. I am actively seeking internship opportunities where I can contribute and grow.
+Third-year undergraduate at **Ton Duc Thang University**, majoring in Computer Networks and Data Communication. My work spans network infrastructure, IoT vulnerability research, and applying AI to intrusion detection — built on the belief that meaningful security starts with deep networking knowledge. Actively seeking internship opportunities in network security or systems administration.
 
 ---
 
