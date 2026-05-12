@@ -1,4 +1,4 @@
-baseURL = 'https://pau-portfolio.com/'
+baseURL = 'https://poeency.github.io/poeency-write-up/'
 locale = 'vi-vn'
 title = 'Trần Thanh Nhã | Portfolio & Write-ups'
 theme = 'PaperMod'
