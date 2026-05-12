@@ -1,22 +1,22 @@
-# Hướng dẫn Deploy Portfolio
+# Portfolio Deployment Guide
 
-## Các phương pháp deploy
+## Deployment Methods
 
-### 1. GitHub Pages (Miễn phí)
+### 1. GitHub Pages (Free)
 
-#### Bước 1: Tạo GitHub Repository
+#### Step 1: Create a GitHub Repository
 
 ```bash
-# Tạo repo mới trên GitHub với tên: username.github.io
-# Hoặc tên bất kỳ nếu muốn deploy ở subdomain
+# Create a new repo on GitHub named: username.github.io
+# Or any name if you want to deploy to a subdirectory
 
 git remote add origin https://github.com/username/poeency-portfolio.git
 git push -u origin master
 ```
 
-#### Bước 2: Cấu hình GitHub Actions
+#### Step 2: Configure GitHub Actions
 
-Tạo file `.github/workflows/deploy.yml`:
+Create a file `.github/workflows/deploy.yml`:
 
 ```yaml
 name: Deploy Hugo site to GitHub Pages
@@ -67,9 +67,9 @@ jobs:
         uses: actions/deploy-pages@v2
 ```
 
-#### Bước 3: Enable GitHub Pages
+#### Step 3: Enable GitHub Pages
 
-1. Vào Settings → Pages
+1. Go to Settings → Pages
 2. Source: GitHub Actions
 3. Save
 
@@ -77,20 +77,20 @@ jobs:
 
 ---
 
-### 2. Netlify (Miễn phí + Custom Domain)
+### 2. Netlify (Free + Custom Domain)
 
-#### Deploy từ Git
+#### Deploy from Git
 
-1. Đăng ký tài khoản tại [netlify.com](https://netlify.com)
+1. Sign up at [netlify.com](https://netlify.com)
 2. Click "Add new site" → "Import an existing project"
-3. Chọn GitHub repository
+3. Select your GitHub repository
 4. Build settings:
    - Build command: `hugo --minify`
    - Publish directory: `public`
    - Environment variables:
      - `HUGO_VERSION`: `0.161.1`
 
-#### Deploy từ CLI
+#### Deploy from CLI
 
 ```bash
 # Install Netlify CLI
@@ -104,14 +104,14 @@ netlify deploy --prod
 ```
 
 **Features**:
-- ✅ HTTPS tự động
-- ✅ Custom domain miễn phí
-- ✅ CDN toàn cầu
+- ✅ Auto HTTPS
+- ✅ Free custom domain
+- ✅ Global CDN
 - ✅ Continuous deployment
 
 ---
 
-### 3. Vercel (Miễn phí)
+### 3. Vercel (Free)
 
 ```bash
 # Install Vercel CLI
@@ -124,13 +124,13 @@ vercel
 vercel --prod
 ```
 
-Hoặc import từ GitHub tại [vercel.com](https://vercel.com)
+Or import from GitHub at [vercel.com](https://vercel.com)
 
 ---
 
-### 4. Cloudflare Pages (Miễn phí)
+### 4. Cloudflare Pages (Free)
 
-1. Đăng ký tại [pages.cloudflare.com](https://pages.cloudflare.com)
+1. Sign up at [pages.cloudflare.com](https://pages.cloudflare.com)
 2. Connect GitHub repository
 3. Build settings:
    - Framework preset: Hugo
@@ -140,14 +140,14 @@ Hoặc import từ GitHub tại [vercel.com](https://vercel.com)
 
 **Features**:
 - ✅ Unlimited bandwidth
-- ✅ Cực nhanh (Cloudflare CDN)
+- ✅ Blazing fast (Cloudflare CDN)
 - ✅ Free SSL
 
 ---
 
 ### 5. Self-hosted (VPS/Server)
 
-#### Sử dụng Nginx
+#### Using Nginx
 
 ```bash
 # Build static files
@@ -175,7 +175,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-#### Sử dụng Docker
+#### Using Docker
 
 ```dockerfile
 # Dockerfile
@@ -200,9 +200,9 @@ docker run -d -p 80:80 poeency-portfolio
 
 ## Custom Domain
 
-### Cấu hình DNS
+### DNS Configuration
 
-Thêm DNS records:
+Add DNS records:
 
 ```
 Type    Name    Value
@@ -212,18 +212,18 @@ CNAME   www     <deployment-url>
 
 ### Update baseURL
 
-Sửa `hugo.toml`:
+Edit `hugo.toml`:
 ```toml
 baseURL = 'https://your-domain.com/'
 ```
 
 ---
 
-## Tối ưu hóa
+## Optimization
 
 ### 1. Minify HTML/CSS/JS
 
-Đã được bật với flag `--minify`
+Already enabled with the `--minify` flag.
 
 ### 2. Image Optimization
 
@@ -237,7 +237,7 @@ imagemin static/images/*.{jpg,png} --plugin=webp --out-dir=static/images/
 
 ### 3. Enable Caching
 
-Thêm vào `hugo.toml`:
+Add to `hugo.toml`:
 ```toml
 [caches]
 [caches.getjson]
@@ -247,7 +247,7 @@ maxAge = "1h"
 
 ### 4. Lazy Loading Images
 
-Trong markdown:
+In your markdown:
 ```html
 <img src="image.jpg" loading="lazy" alt="Description">
 ```
@@ -278,7 +278,7 @@ pages:
 
 ### Google Analytics
 
-Thêm vào `hugo.toml`:
+Add to `hugo.toml`:
 ```toml
 [params]
 googleAnalytics = "G-XXXXXXXXXX"
@@ -286,7 +286,7 @@ googleAnalytics = "G-XXXXXXXXXX"
 
 ### Cloudflare Analytics
 
-Miễn phí khi dùng Cloudflare Pages/CDN
+Free when using Cloudflare Pages/CDN.
 
 ---
 
@@ -307,7 +307,7 @@ tar -czf pau-portfolio-backup-$DATE.tar.gz \
 
 ## Troubleshooting
 
-### Theme không load
+### Theme not loading
 
 ```bash
 git submodule update --init --recursive
@@ -326,19 +326,19 @@ rm -rf public/ resources/
 
 ### 404 errors
 
-Kiểm tra `baseURL` trong `hugo.toml` phải khớp với domain
+Check that the `baseURL` in `hugo.toml` matches your actual domain.
 
 ---
 
 ## Recommended: Netlify
 
-Tôi khuyên dùng **Netlify** vì:
-- ✅ Setup đơn giản nhất
+I recommend using **Netlify** because:
+- ✅ Easiest setup
 - ✅ Free SSL + Custom domain
-- ✅ Auto deploy khi push code
-- ✅ Preview deployments cho PRs
-- ✅ Form handling (nếu cần contact form)
+- ✅ Auto deploy on push
+- ✅ Preview deployments for PRs
+- ✅ Form handling (if a contact form is needed)
 
 ---
 
-Chúc bạn deploy thành công! 🚀
+Happy Deploying! 🚀
