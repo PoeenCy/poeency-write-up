@@ -4,12 +4,13 @@ date = '2026-05-12T16:23:49+07:00'
 draft = false
 +++
 
-Hi there! 👋 I'm a **Computer Networks** undergraduate student with a strong foundation in networking infrastructure and a deep, growing passion for **Cybersecurity**.
+Hi there! 👋 I'm a **3rd-year undergraduate student** majoring in **Computer Networks and Data Communication**. I have a strong foundation in networking infrastructure and a deep, growing passion for **Cybersecurity**.
 
 I've built this space to document my learning journey. My goal is to blend my core networking knowledge with a security-first mindset, constantly pushing myself through hands-on labs, academic research, and personal projects. I'm actively building a robust skill set to meet real-world industry demands, and I'm always looking for internships or practical work opportunities where I can learn, contribute, and grow.
 
-![Profile Image](/images/profile-placeholder.jpg#center)
-*(Feel free to replace this placeholder with your actual profile picture in the `static/images/` folder)*
+<div style="text-align: center; margin: 2rem 0;">
+  <img src="/images/portfolio/profile.jpg" alt="Profile Image" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</div>
 
 ---
 

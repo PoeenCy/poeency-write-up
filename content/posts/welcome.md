@@ -1,47 +1,32 @@
 +++
-title = 'Chào mừng đến với Blog của tôi!'
+title = 'Welcome'
 date = '2026-05-12T16:25:04+07:00'
 draft = false
 tags = ['general', 'introduction']
 categories = ['Blog']
 +++
 
-## Xin chào! 👋
+<div style="text-align: center; margin: 2rem 0;">
+  <img src="/images/portfolio/profile.jpg" alt="Profile Picture" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</div>
 
-Chào mừng bạn đến với blog cá nhân của tôi - nơi tôi chia sẻ về hành trình học tập và nghiên cứu trong lĩnh vực **An toàn thông tin**.
+Hello, and welcome to my personal blog.
 
-### Blog này về gì?
+I am a third-year student at Ton Duc Thang University, majoring in Computer Networks and Data Communication. This blog serves as my digital notebook where I document my learning process, practical lab setups, and experiences in the field of networking and cybersecurity.
 
-Tại đây, bạn sẽ tìm thấy:
+### Blog Focus
 
-- 📝 **Write-ups CTF**: Lời giải chi tiết cho các challenges từ các cuộc thi CTF
-- 🔍 **Network Analysis**: Hướng dẫn phân tích lưu lượng mạng và phát hiện anomaly
-- 🤖 **AI/ML in Security**: Ứng dụng machine learning trong an ninh mạng
-- 🛡️ **Blue Team Techniques**: Kỹ thuật phòng thủ và giám sát an ninh
-- 🔬 **Research Notes**: Ghi chú nghiên cứu về IoT Security và các chủ đề liên quan
+Through this site, I aim to share:
+- **Lab Documentation**: Step-by-step notes on configuring network infrastructure and testing security concepts.
+- **Study Notes**: Summaries of network protocols, fundamental security principles, and related academic research.
+- **CTF Write-ups**: Technical breakdowns of Capture The Flag challenges I solve to improve my practical skills.
 
-### Tại sao tôi viết blog?
+### Purpose
 
-1. **Chia sẻ kiến thức**: Những gì tôi học được có thể hữu ích cho người khác
-2. **Ghi chép hành trình**: Theo dõi quá trình phát triển kỹ năng của bản thân
-3. **Kết nối cộng đồng**: Gặp gỡ những người có cùng đam mê về cybersecurity
+The primary goal of this blog is to track my own progress and ensure I deeply understand the concepts I study by explaining them in writing. If these notes happen to help other students or enthusiasts along the way, that is an added benefit.
 
-### Về tôi
+### Contact
 
-Tôi là sinh viên năm 3 tại Đại học Tôn Đức Thắng, đam mê về:
-- Network Security & Traffic Analysis
-- Blue Team Operations
-- AI/ML applications in Cybersecurity
-- CTF competitions
+If you would like to discuss networking, security, or any of the topics covered here, feel free to reach out via email at nhatran.network@gmail.com.
 
-Hiện tại, tôi đang là Technical Lead của **CyberKnight CTF** và tích cực tham gia các cuộc thi CTF trong và ngoài nước.
-
-### Liên hệ
-
-Nếu bạn muốn trao đổi về cybersecurity, CTF, hoặc bất kỳ chủ đề nào liên quan, đừng ngần ngại liên hệ với tôi qua:
-
-📧 Email: nhatran.network@gmail.com
-
----
-
-Cảm ơn bạn đã ghé thăm! Hãy theo dõi blog để không bỏ lỡ các bài viết mới nhé! 🚀
+Thank you for reading.
