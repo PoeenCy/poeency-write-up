@@ -1,0 +1,84 @@
+baseURL = 'https://pau-portfolio.com/'
+languageCode = 'vi-vn'
+title = 'Trần Thanh Nhã | Portfolio & Write-ups'
+theme = 'PaperMod'
+
+[params]
+env = "production"
+description = "Portfolio cá nhân và Write-up về An toàn thông tin, Blue Team, IoT Security và ứng dụng AI/ML (LSTM, CNN) trong phát hiện xâm nhập."
+author = "Trần Thanh Nhã (Pâu)"
+defaultTheme = "auto"
+ShowReadingTime = true
+ShowCodeCopyButtons = true
+ShowToc = true
+
+# Thông tin cá nhân
+[params.profileMode]
+enabled = true
+title = "Trần Thanh Nhã (Pâu)"
+subtitle = "Cybersecurity Student | Blue Team Enthusiast | CTF Player"
+imageUrl = ""
+imageTitle = "Profile"
+
+[[params.profileMode.buttons]]
+name = "Portfolio"
+url = "/portfolio/"
+
+[[params.profileMode.buttons]]
+name = "Write-ups"
+url = "/posts/"
+
+[[params.profileMode.buttons]]
+name = "Research"
+url = "/tags/research/"
+
+# Thông tin liên hệ và mạng xã hội
+[[params.socialIcons]]
+name = "email"
+url = "mailto:nhatran.network@gmail.com"
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/tranthanhnh"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://linkedin.com/in/tranthanhnh"
+
+# Menu chính
+[menu]
+[[menu.main]]
+identifier = "home"
+name = "Home"
+url = "/"
+weight = 5
+
+[[menu.main]]
+identifier = "portfolio"
+name = "Portfolio"
+url = "/portfolio/"
+weight = 10
+
+[[menu.main]]
+identifier = "writeups"
+name = "Write-ups"
+url = "/posts/"
+weight = 20
+
+[[menu.main]]
+identifier = "research"
+name = "Research"
+url = "/tags/research/"
+weight = 30
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 40
+
+# Cấu hình markup
+[markup]
+[markup.highlight]
+style = "monokai"
+lineNos = true
