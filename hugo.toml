@@ -29,8 +29,8 @@ name = "Write-ups"
 url = "/posts/"
 
 [[params.profileMode.buttons]]
-name = "Research"
-url = "/tags/research/"
+name = "About"
+url = "/about/"
 
 # Thông tin liên hệ và mạng xã hội
 [[params.socialIcons]]
@@ -66,16 +66,10 @@ url = "/posts/"
 weight = 20
 
 [[menu.main]]
-identifier = "research"
-name = "Research"
-url = "/tags/research/"
-weight = 30
-
-[[menu.main]]
 identifier = "about"
 name = "About"
 url = "/about/"
-weight = 40
+weight = 30
 
 # Cấu hình markup
 [markup]
