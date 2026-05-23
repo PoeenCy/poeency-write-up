@@ -3,6 +3,7 @@ title = 'Smart City IoT: Hybrid WSN-LSTM Smart Parking System'
 date = '2026-05-12T17:15:00+07:00'
 draft = false
 tags = ['WSN', 'IoT', 'Machine Learning', 'Bi-LSTM', 'Genetic Algorithms']
+categories = ['Machine Learning', 'Network Engineering']
 +++
 
 # Cách Mạng Hóa Bãi Đỗ Xe Thông Minh Bằng Hybrid WSN và AI (Bi-LSTM)

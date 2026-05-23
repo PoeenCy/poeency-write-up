@@ -32,12 +32,16 @@ name = "Write-ups"
 url = "write-ups/"
 
 [[params.profileMode.buttons]]
-name = "Portfolio"
-url = "portfolio/"
+name = "Thể loại"
+url = "categories/"
 
 [[params.profileMode.buttons]]
-name = "About"
-url = "about/"
+name = "Chủ đề"
+url = "tags/"
+
+[[params.profileMode.buttons]]
+name = "Tìm kiếm"
+url = "search/"
 
 [[params.socialIcons]]
 name = "email"
@@ -65,16 +69,28 @@ url = "write-ups/"
 weight = 20
 
 [[menu.main]]
-identifier = "portfolio"
-name = "Portfolio"
-url = "portfolio/"
-weight = 25
+identifier = "categories"
+name = "Thể loại"
+url = "categories/"
+weight = 30
+
+[[menu.main]]
+identifier = "tags"
+name = "Chủ đề"
+url = "tags/"
+weight = 40
+
+[[menu.main]]
+identifier = "search"
+name = "Tìm kiếm"
+url = "search/"
+weight = 50
 
 [[menu.main]]
 identifier = "about"
 name = "About"
 url = "about/"
-weight = 30
+weight = 60
 
 [markup]
 [markup.goldmark.renderer]
@@ -83,3 +99,6 @@ unsafe = true
 [markup.highlight]
 style = "monokai"
 lineNos = true
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']

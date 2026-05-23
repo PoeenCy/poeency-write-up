@@ -3,6 +3,7 @@ title = 'Vulnerability Research: ESP32 BluFi Stack Overflow (NCC-BluFi-Ref-WXR)'
 date = '2026-05-12T17:10:00+07:00'
 draft = false
 tags = ['IoT Security', 'Vulnerability Research', 'ESP32', 'Buffer Overflow']
+categories = ['Cyber Security', 'IoT']
 +++
 
 # Phân Tích Lỗ Hổng Tràn Bộ Đệm (Buffer Overflow) Trên Giao Thức ESP32 BluFi

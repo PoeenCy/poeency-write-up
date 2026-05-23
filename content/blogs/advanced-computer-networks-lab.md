@@ -3,6 +3,7 @@ title = 'Enterprise Routing & Simulation: Advanced Computer Networks Lab'
 date = '2026-05-12T17:40:00+07:00'
 draft = false
 tags = ['Computer Networks', 'Routing', 'Network Simulation', 'Python']
+categories = ['Network Engineering', 'Lab']
 +++
 
 **Overview:**  
