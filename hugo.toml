@@ -32,14 +32,6 @@ name = "Write-ups"
 url = "write-ups/"
 
 [[params.profileMode.buttons]]
-name = "Categories"
-url = "categories/"
-
-[[params.profileMode.buttons]]
-name = "Tags"
-url = "tags/"
-
-[[params.profileMode.buttons]]
 name = "Search"
 url = "search/"
 
@@ -67,18 +59,6 @@ identifier = "writeups"
 name = "Write-ups"
 url = "write-ups/"
 weight = 20
-
-[[menu.main]]
-identifier = "categories"
-name = "Categories"
-url = "categories/"
-weight = 30
-
-[[menu.main]]
-identifier = "tags"
-name = "Tags"
-url = "tags/"
-weight = 40
 
 [[menu.main]]
 identifier = "search"

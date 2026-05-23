@@ -2,7 +2,7 @@
 <header class="page-header">
   <h1>{{ .Title }}</h1>
   {{- if .Description }}
-  <div class="post-description">
+  <div class="post-description" style="margin-top: 1rem; color: var(--secondary);">
     {{ .Description }}
   </div>
   {{- end }}
@@ -12,32 +12,50 @@
   {{ .Content }}
 </div>
 
-{{ $pages := where .Site.RegularPages "Type" .Section }}
+<div class="taxonomies-nav" style="margin-bottom: 3rem; padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px;">
+  <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Explore by Category</h3>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+    {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+      <a href="{{ "/categories/" | relLangURL }}{{ $name | urlize }}" style="padding: 0.3rem 0.8rem; background: var(--tertiary); color: var(--primary); border-radius: 20px; font-size: 0.85rem; text-decoration: none; border: 1px solid var(--border);">{{ $name | humanize | title }} <span style="opacity: 0.7; font-size: 0.8em; margin-left: 2px;">{{ $taxonomy.Count }}</span></a>
+    {{ end }}
+  </div>
 
-{{ range $pages.GroupByParam "categories" }}
-<div class="category-group" style="margin-bottom: 3rem;">
-  <h2 style="border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block;">
-    {{ .Key }}
-  </h2>
-  
-  <div class="post-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
-    {{ range .Pages }}
-    <article class="post-entry" style="padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{{ .Permalink }}'">
-      <header class="entry-header">
-        <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem; line-height: 1.4;">
-          <a href="{{ .Permalink }}" style="box-shadow: none; text-decoration: none; color: var(--primary);">{{ .Title }}</a>
-        </h3>
-      </header>
-      <div class="entry-content" style="margin-top: 0.5rem; font-size: 0.9em; color: var(--secondary); line-height: 1.5;">
-        <p>{{ .Summary | plainify | truncate 120 }}</p>
-      </div>
-      <footer class="entry-footer" style="margin-top: 1.5rem; font-size: 0.8em; color: var(--tertiary); display: flex; justify-content: space-between; align-items: center;">
-        <span>{{ .Date.Format "January 2, 2006" }}</span>
-        <span style="background: var(--primary); color: var(--theme); padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: bold;">Read ↗</span>
-      </footer>
-    </article>
+  <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Popular Tags</h3>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+      <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" style="padding: 0.2rem 0.6rem; color: var(--secondary); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;">#{{ $name }}</a>
     {{ end }}
   </div>
 </div>
+
+{{ $sectionPages := .RegularPages }}
+{{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+  {{ $categoryPages := intersect $taxonomy.Pages $sectionPages }}
+  {{ if gt (len $categoryPages) 0 }}
+  <div class="category-group" style="margin-bottom: 4rem;">
+    <h2 style="font-size: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block;">
+      {{ $name | humanize | title }}
+    </h2>
+    
+    <div class="post-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+      {{ range $categoryPages }}
+      <article class="post-entry" style="padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{{ .Permalink }}'">
+        <header class="entry-header">
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem; line-height: 1.4;">
+            <a href="{{ .Permalink }}" style="box-shadow: none; text-decoration: none; color: var(--primary);">{{ .Title }}</a>
+          </h3>
+        </header>
+        <div class="entry-content" style="font-size: 0.95em; color: var(--secondary); line-height: 1.6; flex-grow: 1;">
+          <p>{{ .Summary | plainify | truncate 130 }}</p>
+        </div>
+        <footer class="entry-footer" style="margin-top: 1.5rem; font-size: 0.85em; color: var(--tertiary); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem;">
+          <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+          <span style="font-weight: 600; color: var(--primary);">Read article &rarr;</span>
+        </footer>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
 {{ end }}
 {{ end }}
