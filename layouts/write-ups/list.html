@@ -1,0 +1,43 @@
+{{ define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">
+    {{ .Description }}
+  </div>
+  {{- end }}
+</header>
+
+<div class="post-content">
+  {{ .Content }}
+</div>
+
+{{ $pages := where .Site.RegularPages "Type" .Section }}
+
+{{ range $pages.GroupByParam "categories" }}
+<div class="category-group" style="margin-bottom: 3rem;">
+  <h2 style="border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block;">
+    {{ .Key }}
+  </h2>
+  
+  <div class="post-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+    {{ range .Pages }}
+    <article class="post-entry" style="padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{{ .Permalink }}'">
+      <header class="entry-header">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem; line-height: 1.4;">
+          <a href="{{ .Permalink }}" style="box-shadow: none; text-decoration: none; color: var(--primary);">{{ .Title }}</a>
+        </h3>
+      </header>
+      <div class="entry-content" style="margin-top: 0.5rem; font-size: 0.9em; color: var(--secondary); line-height: 1.5;">
+        <p>{{ .Summary | plainify | truncate 120 }}</p>
+      </div>
+      <footer class="entry-footer" style="margin-top: 1.5rem; font-size: 0.8em; color: var(--tertiary); display: flex; justify-content: space-between; align-items: center;">
+        <span>{{ .Date.Format "January 2, 2006" }}</span>
+        <span style="background: var(--primary); color: var(--theme); padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: bold;">Read ↗</span>
+      </footer>
+    </article>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+{{ end }}

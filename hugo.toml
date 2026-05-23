@@ -32,15 +32,15 @@ name = "Write-ups"
 url = "write-ups/"
 
 [[params.profileMode.buttons]]
-name = "Thể loại"
+name = "Categories"
 url = "categories/"
 
 [[params.profileMode.buttons]]
-name = "Chủ đề"
+name = "Tags"
 url = "tags/"
 
 [[params.profileMode.buttons]]
-name = "Tìm kiếm"
+name = "Search"
 url = "search/"
 
 [[params.socialIcons]]
@@ -70,19 +70,19 @@ weight = 20
 
 [[menu.main]]
 identifier = "categories"
-name = "Thể loại"
+name = "Categories"
 url = "categories/"
 weight = 30
 
 [[menu.main]]
 identifier = "tags"
-name = "Chủ đề"
+name = "Tags"
 url = "tags/"
 weight = 40
 
 [[menu.main]]
 identifier = "search"
-name = "Tìm kiếm"
+name = "Search"
 url = "search/"
 weight = 50
 
