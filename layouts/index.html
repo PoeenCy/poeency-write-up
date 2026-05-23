@@ -1,4 +1,4 @@
-﻿{{ define "main" }}
+{{ define "main" }}
 
 {{- $profileImg := "images/portfolio/profile.jpg" }}
 
@@ -80,52 +80,24 @@
   </div>
 </div>
 
-<!-- ── RELATED PROJECTS ───────────────────────────────── -->
+<!-- ── LATEST BLOGS ───────────────────────────────── -->
 <div class="hp-section">
-  <div class="hp-section-label">Related Projects</div>
+  <div class="hp-section-label">Latest from Blog</div>
   <div class="hp-proj-list">
 
+    {{ $blogs := where site.RegularPages "Section" "blogs" }}
+    {{ range first 5 $blogs }}
     <div class="hp-proj-row">
       <div class="hp-proj-left">
-        <a class="hp-proj-name" href="{{ "blogs/esp32-blufi-stack-overflow/" | relURL }}">ESP32 BluFi Stack
-          Overflow</a>
-        <span class="hp-proj-area">Vulnerability Research · IoT / Embedded</span>
+        <a class="hp-proj-name" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <span class="hp-proj-area">
+          {{- $cats := .Params.categories | default slice -}}
+          {{ delimit $cats " · " }}
+        </span>
       </div>
-      <span class="hp-proj-result">Reproduced &amp; patched BLE buffer overflow (NCC-BluFi-Ref-WXR)</span>
+      <span class="hp-proj-result">{{ .Summary | plainify | truncate 80 }}</span>
     </div>
-
-    <div class="hp-proj-row">
-      <div class="hp-proj-left">
-        <a class="hp-proj-name" href="{{ "blogs/edge-cloud-ids-aiot/" | relURL }}">Edge–Cloud IDS</a>
-        <span class="hp-proj-area">AI · Network Security · Springer</span>
-      </div>
-      <span class="hp-proj-result">96.94% accuracy on CIC-IDS2017</span>
-    </div>
-
-    <div class="hp-proj-row">
-      <div class="hp-proj-left">
-        <a class="hp-proj-name" href="{{ "blogs/hybrid-wsn-lstm-smartparking/" | relURL }}">WSN–LSTM Smart Parking</a>
-        <span class="hp-proj-area">Network Simulation · AI</span>
-      </div>
-      <span class="hp-proj-result">2.8× network lifetime vs. LEACH</span>
-    </div>
-
-    <div class="hp-proj-row">
-      <div class="hp-proj-left">
-        <a class="hp-proj-name" href="{{ "blogs/nfstream-cic-ids-pipeline/" | relURL }}">NFStream CIC-IDS Pipeline</a>
-        <span class="hp-proj-area">Data Engineering · Network Traffic</span>
-      </div>
-      <span class="hp-proj-result">End-to-end ML-ready PCAP flow extraction</span>
-    </div>
-
-    <div class="hp-proj-row">
-      <div class="hp-proj-left">
-        <a class="hp-proj-name" href="{{ "blogs/advanced-computer-networks-lab/" | relURL }}">Advanced Computer
-          Networks Lab</a>
-        <span class="hp-proj-area">Network Infrastructure</span>
-      </div>
-      <span class="hp-proj-result">Enterprise routing topology &amp; protocol analysis</span>
-    </div>
+    {{ end }}
 
   </div>
 </div>
