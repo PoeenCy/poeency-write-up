@@ -30,7 +30,7 @@ Triết lý ở đây là: **Dùng cùng một công cụ cho cả việc Huấn
 
 Kiến trúc bên dưới thể hiện rõ cách luồng dữ liệu thô (PCAP) đi qua bộ trích xuất gọn nhẹ NFStream trước khi trở thành dữ liệu tinh sạch để phân tích và đánh giá bằng các thuật toán AI.
 
-![Sơ đồ NIDS Pipeline với NFStream](/images/portfolio/nids_pipeline.png)
+![Sơ đồ NIDS Pipeline với NFStream](/poeency-write-up/images/portfolio/nids_pipeline.png)
 
 ## 4. Xác Thực Bằng Dữ Liệu Thực Tế
 
