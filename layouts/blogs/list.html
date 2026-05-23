@@ -1,61 +1,128 @@
-{{ define "main" }}
+{{- define "main" }}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) }}
+{{- partial "index_profile.html" . }}
+{{- else }} {{/* if not profileMode */}}
+
+{{- if not .IsHome | and .Title }}
 <header class="page-header">
-  <h1>{{ .Title }}</h1>
+  {{- partial "breadcrumbs.html" . }}
+  <h1>
+    {{ .Title }}
+  </h1>
   {{- if .Description }}
-  <div class="post-description" style="margin-top: 1rem; color: var(--secondary);">
-    {{ .Description }}
+  <div class="post-description">
+    {{ .Description | markdownify }}
   </div>
   {{- end }}
 </header>
+{{- end }}
 
-<div class="post-content">
-  {{ .Content }}
+{{- if .Content }}
+<div class="post-content md-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
 </div>
+{{- end }}
 
 <div class="taxonomies-nav" style="margin-bottom: 3rem; padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px;">
   <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Explore by Category</h3>
   <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
     {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-      <a href="{{ "/categories/" | relLangURL }}{{ $name | urlize }}" style="padding: 0.3rem 0.8rem; background: var(--tertiary); color: var(--primary); border-radius: 20px; font-size: 0.85rem; text-decoration: none; border: 1px solid var(--border);">{{ $name | humanize | title }} <span style="opacity: 0.7; font-size: 0.8em; margin-left: 2px;">{{ $taxonomy.Count }}</span></a>
+      {{ with site.GetPage (printf "/categories/%s" $name) }}
+      <a href="{{ .RelPermalink }}" style="padding: 0.3rem 0.8rem; background: var(--tertiary); color: var(--primary); border-radius: 20px; font-size: 0.85rem; text-decoration: none; border: 1px solid var(--border);">{{ $name | humanize | title }} <span style="opacity: 0.7; font-size: 0.8em; margin-left: 2px;">{{ len $taxonomy.Pages }}</span></a>
+      {{ end }}
     {{ end }}
   </div>
 
   <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Popular Tags</h3>
   <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
     {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-      <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" style="padding: 0.2rem 0.6rem; color: var(--secondary); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;">#{{ $name }}</a>
+      {{ with site.GetPage (printf "/tags/%s" $name) }}
+      <a href="{{ .RelPermalink }}" style="padding: 0.2rem 0.6rem; color: var(--secondary); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;">#{{ $name }}</a>
+      {{ end }}
     {{ end }}
   </div>
 </div>
 
-{{ $sectionPages := .RegularPages }}
-{{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-  {{ $categoryPages := intersect $taxonomy.Pages $sectionPages }}
-  {{ if gt (len $categoryPages) 0 }}
-  <div class="category-group" style="margin-bottom: 4rem;">
-    <h2 style="font-size: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block;">
-      {{ $name | humanize | title }}
+{{- $pages := union .RegularPages .Sections }}
+
+{{- if .IsHome }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
+{{- end }}
+
+{{- $paginator := .Paginate $pages }}
+
+{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+{{- $term := .Data.Term }}
+{{- range $index, $page := $paginator.Pages }}
+
+{{- $class := "post-entry" }}
+
+{{- $user_preferred := or site.Params.disableSpecial1stPost site.Params.homeInfoParams }}
+{{- if (and $.IsHome (eq $paginator.PageNumber 1) (eq $index 0) (not $user_preferred)) }}
+{{- $class = "first-entry" }}
+{{- else if $term }}
+{{- $class = "post-entry tag-entry" }}
+{{- end }}
+
+<article class="{{ $class }}">
+  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">
+      {{- .Title }}
+      {{- if .Draft }}
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+      {{- end }}
     </h2>
-    
-    <div class="post-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-      {{ range $categoryPages }}
-      <article class="post-entry" style="padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';" onclick="window.location.href='{{ .Permalink }}'">
-        <header class="entry-header">
-          <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem; line-height: 1.4;">
-            <a href="{{ .Permalink }}" style="box-shadow: none; text-decoration: none; color: var(--primary);">{{ .Title }}</a>
-          </h3>
-        </header>
-        <div class="entry-content" style="font-size: 0.95em; color: var(--secondary); line-height: 1.6; flex-grow: 1;">
-          <p>{{ .Summary | plainify | truncate 130 }}</p>
-        </div>
-        <footer class="entry-footer" style="margin-top: 1.5rem; font-size: 0.85em; color: var(--tertiary); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem;">
-          <span>{{ .Date.Format "Jan 2, 2006" }}</span>
-          <span style="font-weight: 600; color: var(--primary);">Read article &rarr;</span>
-        </footer>
-      </article>
-      {{ end }}
-    </div>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
   </div>
-  {{ end }}
-{{ end }}
-{{ end }}
+  {{- end }}
+  {{- if not (.Param "hideMeta") }}
+  <footer class="entry-footer">
+    {{- partial "post_meta.html" . -}}
+  </footer>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
+      «&nbsp;{{ i18n "prev_page" }}&nbsp;
+      {{- if (.Param "ShowPageNums") }}
+      {{- sub $paginator.PageNumber 1 }}/{{ $paginator.TotalPages }}
+      {{- end }}
+    </a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">
+      {{- i18n "next_page" }}&nbsp;
+      {{- if (.Param "ShowPageNums") }}
+      {{- add 1 $paginator.PageNumber }}/{{ $paginator.TotalPages }}
+      {{- end }}&nbsp;»
+    </a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}{{/* end profileMode */}}
+
+{{- end }}{{- /* end main */ -}}
