@@ -4,6 +4,7 @@ title = 'Nha Tran Thanh | Portfolio'
 theme = 'PaperMod'
 
 [params]
+math = true
 env = "production"
 description = "Personal portfolio and technical write-ups focusing on Computer Networks, Cybersecurity, and AI applications."
 subtitle = "Sinh viên năm 3 · Mạng máy tính & Truyền thông dữ liệu · Định hướng Cyber Security & Network Systems"
