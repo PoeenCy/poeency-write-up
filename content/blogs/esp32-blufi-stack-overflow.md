@@ -29,7 +29,7 @@ Cụ thể, khi sao chép chuỗi cấu hình mạng (SSID và Mật khẩu) do 
 
 Dưới đây là mô phỏng quá trình tấn công từ một thiết bị xâm nhập qua tín hiệu BLE, gửi payload độc hại vào ESP32 để kích hoạt lỗi tràn bộ đệm:
 
-![Sơ đồ tấn công ESP32 BluFi](/poeency-write-up/images/portfolio/esp32_blufi_vuln.png)
+![Sơ đồ tấn công ESP32 BluFi](/images/blogs/esp32-blufi-stack-overflow/esp32_blufi_vuln.png)
 
 ## 4. Chi Tiết Khai Thác Bằng Script Python
 

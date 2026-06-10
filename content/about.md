@@ -6,7 +6,7 @@ showToc = true
 +++
 
 <div style="text-align:center; margin: 2rem 0 1.5rem;">
-  <img src="../images/portfolio/profile.jpg"
+  <img src="../images/about/profile.jpg"
        alt="Nha Tran Thanh"
        style="border-radius:50%; width:150px; height:150px; object-fit:cover; box-shadow:0 4px 16px rgba(0,0,0,0.18);">
 </div>

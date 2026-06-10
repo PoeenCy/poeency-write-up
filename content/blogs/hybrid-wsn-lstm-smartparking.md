@@ -32,7 +32,7 @@ Gói tin đôi khi vẫn bị thất thoát. Để hệ thống vẫn báo cáo 
 
 Kiến trúc dưới đây thể hiện sự phối hợp nhịp nhàng từ các điểm đỗ (cảm biến WSN), truyền tin qua Gateway và đưa vào đám mây để AI dự đoán trước khi xuất lên Dashboard.
 
-![Sơ đồ kiến trúc Smart Parking System](/poeency-write-up/images/portfolio/smart_parking_wsn.png)
+![Sơ đồ kiến trúc Smart Parking System](/images/blogs/hybrid-wsn-lstm-smartparking/smart_parking_wsn.png)
 
 ## 4. Kết Quả Vượt Trội
 
