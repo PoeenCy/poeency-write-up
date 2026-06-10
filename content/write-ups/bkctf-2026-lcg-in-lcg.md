@@ -113,7 +113,7 @@ $$s_{i+1} \equiv a_{c_i} \cdot s_i + b_{c_i} \pmod{p}$$
 
 trong đó $c_i$ là chỉ số được chọn tại bước $i$, và chuỗi $(c_i)$ hoàn toàn bị ẩn. Dữ liệu công khai là $p$, chuỗi leak $L = (s_0, s_1, \ldots, s_{29})$, và ciphertext $\mathbf{ct}$ thỏa mãn $ct_j = (s_{29+j+1} \;\&\; \texttt{0xFF}) \oplus f_j$ với $f_j$ là byte thứ $j$ của flag.
 
-![**Hình 1.** Chuỗi chuyển trạng thái LCG với 29 bước và 10 cặp tham số. Theo nguyên lý Dirichlet, ít nhất một cặp $(a, b)$ phải xuất hiện lặp lại trong chuỗi.](/images/write-ups/bkctf-2026-lcg-in-lcg/fig1_lcg_transitions.png)
+![**Hình 1.** Chuỗi chuyển trạng thái LCG với 29 bước và 10 cặp tham số. Theo nguyên lý Dirichlet, ít nhất một cặp $(a, b)$ phải xuất hiện lặp lại trong chuỗi.](/poeency-write-up/images/write-ups/bkctf-2026-lcg-in-lcg/fig1_lcg_transitions.png)
 
 ---
 
@@ -127,7 +127,7 @@ Mỗi bước chuyển $(s_i, s_{i+1})$ được điều khiển bởi một c�
 
 Điều này có nghĩa: dù chuỗi index $(c_i)$ bị giấu hoàn toàn bởi LCG phụ trợ, tập $T$ chắc chắn chứa ít nhất hai bước chuyển dùng chung một cặp $(a, b)$ — và đó là thứ ta có thể khai thác.
 
-![**Hình 1.** Chuỗi chuyển trạng thái LCG với 29 bước và 10 cặp tham số. Theo nguyên lý Dirichlet, ít nhất một cặp $(a, b)$ phải xuất hiện lặp lại.](/images/write-ups/bkctf-2026-lcg-in-lcg/fig1_lcg_transitions.png)
+![**Hình 1.** Chuỗi chuyển trạng thái LCG với 29 bước và 10 cặp tham số. Theo nguyên lý Dirichlet, ít nhất một cặp $(a, b)$ phải xuất hiện lặp lại.](/poeency-write-up/images/write-ups/bkctf-2026-lcg-in-lcg/fig1_lcg_transitions.png)
 
 ---
 
@@ -162,7 +162,7 @@ $$\boxed{b \equiv s_{i+1} - a \cdot s_i \pmod{p}}$$
 
 Vì $\mathbb{Z}_p$ là trường, hệ hai phương trình tuyến tính với ma trận hệ số không suy biến (do $s_i \neq s_j$) luôn có **đúng một nghiệm duy nhất** $(a, b)$ trong $\mathbb{Z}_p \times \mathbb{Z}_p$.
 
-![**Hình 2.** Sơ đồ minh họa việc giải hệ hai phương trình tuyến tính đồng dư trên $\mathbb{Z}_p$ để tìm $(a, b)$.](/images/write-ups/bkctf-2026-lcg-in-lcg/fig2_linear_congruence.png)
+![**Hình 2.** Sơ đồ minh họa việc giải hệ hai phương trình tuyến tính đồng dư trên $\mathbb{Z}_p$ để tìm $(a, b)$.](/poeency-write-up/images/write-ups/bkctf-2026-lcg-in-lcg/fig2_linear_congruence.png)
 
 **Bước 4 — Duyệt toàn bộ tổ hợp và xác minh.** Ta không biết trước cặp bước chuyển nào dùng chung một $(a, b)$. Vì vậy, chiến lược là: với mọi cặp chỉ số $(i, j)$ thỏa $0 \le i < j \le 28$, giải hệ trên để thu được một ứng cử viên $(a, b)$. Tổng số cặp cần xét là $\binom{29}{2} = 406$.
 
@@ -191,7 +191,7 @@ Constraint prefix `BKISC{` thực tế cực kỳ mạnh: tại 6 bước đầu
 
 Thuật toán **Beam Search** thực hiện quá trình này một cách có hệ thống: duy trì một tập các ứng viên (beam), tại mỗi bước mở rộng mỗi ứng viên thành tối đa 10 nhánh, lọc theo các constraint trên, và giữ lại $B$ nhánh tốt nhất theo điểm heuristic (ưu tiên ký tự chữ thường, gạch dưới, chữ hoa, chữ số).
 
-![**Hình 3.** Cây Beam Search với quá trình tỉa nhánh tại mỗi bước. Nhánh đỏ bị loại do vi phạm ràng buộc; nhánh xanh được giữ lại để mở rộng tiếp.](/images/write-ups/bkctf-2026-lcg-in-lcg/fig3_beam_search.png)
+![**Hình 3.** Cây Beam Search với quá trình tỉa nhánh tại mỗi bước. Nhánh đỏ bị loại do vi phạm ràng buộc; nhánh xanh được giữ lại để mở rộng tiếp.](/poeency-write-up/images/write-ups/bkctf-2026-lcg-in-lcg/fig3_beam_search.png)
 
 ---
 
