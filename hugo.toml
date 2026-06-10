@@ -1,4 +1,5 @@
 baseURL = 'https://poeency.github.io/poeency-write-up/'
+canonifyURLs = true
 locale = 'en-us'
 title = 'Nha Tran Thanh | Portfolio'
 theme = 'PaperMod'
@@ -76,6 +77,12 @@ weight = 60
 [markup]
 [markup.goldmark.renderer]
 unsafe = true
+
+[markup.goldmark.extensions.passthrough]
+enable = true
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [['\[', '\]'], ['$$', '$$']]
+inline = [['\(', '\)'], ['$', '$']]
 
 [markup.highlight]
 style = "monokai"

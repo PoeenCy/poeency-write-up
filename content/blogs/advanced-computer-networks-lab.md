@@ -9,7 +9,7 @@ categories = ['Network Engineering', 'Lab', 'Blog']
 **Overview:**  
 Hello everyone, today I want to share a fascinating journey I experienced in my Advanced Computer Networks course. Instead of just learning dry theory on paper, this project served as a practical playground where I could manually build, configure, and break complex enterprise network systems to deeply understand how the networking world truly operates.
 
-![Advanced Computer Networks Lab](/poeency-write-up/images/blogs/advanced-computer-networks-lab/advanced_computer_networks_lab.png)
+![Advanced Computer Networks Lab](/images/blogs/advanced-computer-networks-lab/advanced_computer_networks_lab.png)
 
 ### What Did I Implement?
 
