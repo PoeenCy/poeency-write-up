@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-{{- $profileImg := "images/portfolio/profile.jpg" }}
+{{- $profileImg := site.Params.profileMode.imageUrl | default "images/about/profile.jpg" }}
 
 <!-- ── HERO ──────────────────────────────────────────── -->
 <div class="hp-hero">
