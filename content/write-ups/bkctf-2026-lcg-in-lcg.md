@@ -2,7 +2,7 @@
 title = 'LCG in LCG — Write-up'
 date = '2026-06-10T19:00:00+07:00'
 draft = false
-tags = ['crypto', 'bkctf', 'lcg', 'math']
+tags = ['crypto', 'BKCTF2026', 'lcg', 'math']
 categories = ['CTF Write-ups', 'Cryptography']
 +++
 
