@@ -6,6 +6,7 @@ tags = ['soc', 'grafana', 'ai', 'loki', 'devops', 'security', 'fabric', 'mcp']
 categories = ['Security', 'AI', 'DevOps']
 description = 'Hướng dẫn chi tiết từng bước cấu hình một hệ thống phân tích bảo mật tự động (SOC Tier 3) sử dụng AI Agent kết hợp Grafana MCP để query log Loki, sau đó pipe qua Fabric patterns để tạo ra các báo cáo chuẩn MITRE ATT&CK.'
 author = 'Security Team'
+mermaid = true
 [cover]
 image = ''
 alt = 'SOC AI Analyst Architecture'
