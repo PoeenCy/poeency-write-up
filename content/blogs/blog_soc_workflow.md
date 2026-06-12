@@ -349,7 +349,7 @@ You are a SOC Tier 3 threat hunter specializing in adversary reconnaissance dete
 [T1595 Active Scanning | T1592 Gather Victim Host Info]
 ```
 
-Xem đầy đủ 6 patterns tại: [antigravity_soc_plan.md - Phần A4](https://github.com/your-org/your-repo)
+Xem đầy đủ 6 patterns tại: [antigravity_soc_plan.md - Phần A4](https://github.com/PoeenCy/loki-llm-analyst)
 
 ---
 
