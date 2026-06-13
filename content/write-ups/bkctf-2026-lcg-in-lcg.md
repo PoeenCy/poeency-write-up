@@ -16,7 +16,7 @@ categories = ['CTF Write-ups', 'Cryptography']
 
 > *"An LCG with a single (a,b) pair alone is not secure enough. So I decided to do many of them!"*
 
-**Tải về output:** [output.txt — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQCxrrt3_xBpTIY2wQbyMLvCAdYS5QN2TFfB6lggx5L0k8o?e=Hnk31J)
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQCxrrt3_xBpTIY2wQbyMLvCAdYS5QN2TFfB6lggx5L0k8o?e=Hnk31J)
 
 Đây là toàn bộ source code chương trình challenge được cung cấp:
 
