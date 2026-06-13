@@ -16,6 +16,8 @@ categories = ['CTF Write-ups', 'Cryptography']
 
 > *"Crypto for Kindergarten — bài toán mật mã dành cho trẻ mầm non?"*
 
+**Tải về output:** [output.txt — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQC4Td2ZJycNQIvobKjTQK6mATD4X0pZ_u2lfdCOf_Fcce0?e=whhahH)
+
 Source code challenge:
 
 ```python
