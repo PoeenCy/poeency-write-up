@@ -4,6 +4,7 @@ date = '2026-06-13T23:00:00+07:00'
 draft = false
 tags = ['forensics', 'BKCTF2026', 'malware', 'c2', 'specula', 'outlook', 'windows']
 categories = ['CTF Write-ups', 'Forensics']
+mermaid = true
 +++
 
 # Lookout — Write-up
@@ -25,6 +26,11 @@ categories = ['CTF Write-ups', 'Forensics']
 
 Bài này mô phỏng một kịch bản tấn công có chủ đích hoàn chỉnh: kẻ tấn công gửi file `report.xlsx` độc hại qua email, lợi dụng tính năng của Office để cài cắm C2 framework vào Outlook, rồi âm thầm thu thập và mã hóa dữ liệu trước khi xóa sạch dấu vết. Nhiệm vụ là tái dựng lại toàn bộ chuỗi đó từ một file ảnh đĩa duy nhất.
 
+![**Hình 1.** Toàn cảnh chuỗi tấn công từ file ảnh đĩa đến lúc lấy Flag.](/images/write-ups/bkctf-2026-lookout/fig1_attack_chain.png)
+
+<details>
+<summary><b>Nhấn để xem sơ đồ Mermaid (Text-based)</b></summary>
+
 ```mermaid
 flowchart LR
     A[chall.ad1] --> B[Dissect\ntarget-shell]
@@ -41,6 +47,7 @@ flowchart LR
     style J fill:#166534,color:#bbf7d0
     style G fill:#7c2d12,color:#fed7aa
 ```
+</details>
 
 ---
 
@@ -270,6 +277,11 @@ HKCU\Software\Microsoft\Office\16.0\Outlook\Webview\Inbox
 
 Mỗi lần Outlook khởi động, nó tự động load trang web từ URL trên vào khung WebView bên trong giao diện. Trang đó chứa VBScript độc hại đóng vai trò Beacon — định kỳ kết nối về C2 server để nhận lệnh và gửi kết quả về. Từ góc nhìn của nạn nhân, Outlook trông hoàn toàn bình thường.
 
+![**Hình 2.** Cơ chế hoạt động của Specula C2: biến Outlook thành một Beacon giao tiếp với máy chủ.](/images/write-ups/bkctf-2026-lookout/fig2_specula_c2.png)
+
+<details>
+<summary><b>Nhấn để xem sơ đồ Mermaid (Text-based)</b></summary>
+
 ```mermaid
 sequenceDiagram
     participant V as Máy nạn nhân
@@ -283,6 +295,7 @@ sequenceDiagram
     O->>C: POST /css/... (dữ liệu XOR-encrypted)
     C-->>O: Lệnh tiếp theo
 ```
+</details>
 
 Dữ liệu Specula gửi về server được mã hóa XOR và encode dạng Hex. Điều quan trọng: trong log mình cũng tìm thấy **Agent ID** của Specula tồn tại dưới dạng plaintext:
 
@@ -371,7 +384,15 @@ print(RC4(key, plaintext).decode())
 Delete file: C:\Users\BKISC\Desktop\flag.py - Success!
 ```
 
-File `flag.py` đã bị xóa hoàn toàn khỏi đĩa. Tuy nhiên, Specula đã gửi nội dung của nó về C2 server — và toàn bộ traffic đó được Windows Event Log ghi lại trước khi xóa. Mình không cần file gốc vì đã có toàn bộ mã nguồn từ log.
+### Điểm nghẽn cuối cùng: File đã bị xóa hoàn toàn
+
+Đây là một bẫy rất hiểm của kẻ tấn công: sau khi thu thập và thực thi `flag.py`, chúng đã lập tức gọi lệnh xóa file này để phi tang dấu vết. 
+
+Theo lý thuyết pháp y, khi một file bị xóa, nội dung của nó vẫn còn trên đĩa cho đến khi bị ghi đè. Tuy nhiên, việc cố gắng khôi phục (data carving) file `flag.py` trực tiếp từ ảnh đĩa `chall.ad1` đã thất bại, có thể do sector chứa file đã bị hệ điều hành ghi đè dữ liệu mới.
+
+Nhưng kẻ tấn công đã mắc một sai lầm chết người: **chúng đã ra lệnh cho Specula C2 đọc toàn bộ nội dung file `flag.py` và gửi về server TRƯỚC KHI xóa nó**. 
+
+Toàn bộ quá trình "gửi về server" này đã đi qua mạng, và do đó bị tính năng **PowerShell Script Block Logging** của Windows chụp lại toàn bộ và nén vào Zlib chunk. Nhờ giải mã được traffic của C2 (như đã thấy ở Payload 2), mình đã **khôi phục thành công 100% nội dung của file `flag.py` đã bị xóa vĩnh viễn** mà không cần phải tìm kiếm sector trên đĩa cứng.
 
 ---
 
