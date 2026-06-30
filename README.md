@@ -2,6 +2,8 @@
 
 Personal portfolio and blog focusing on Cybersecurity, built with Hugo and the PaperMod theme.
 
+Link: [PoeenCy's Portfolio](https://poeency.github.io/poeency-write-up/)
+
 ## 🚀 Overview
 
 This website includes:
