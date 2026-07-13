@@ -67,7 +67,11 @@ $ ffmpeg -hide_banner -y -i lyknctf_audio.wav \
   lyknctf_audio_spectrogram.png
 ```
 
-Trong spectrogram có một dải tín hiệu cao khoảng `6.5 kHz - 11.5 kHz`, lặp lại đều. Dải này không giống tiếng nền tự nhiên, nên mình lọc riêng nó ra:
+![Spectrogram audio gốc của `lyknctf.mp4`](/images/write-ups/lycknctf-2026-thanh-hoa-1/lyknctf_audio_spectrogram.png)
+
+Ở spectrogram gốc, phần âm thanh tự nhiên nằm dày ở dải thấp, nhưng có một dải tín hiệu đỏ rất đều nằm khoảng `6.5 kHz - 11.5 kHz`. Nó kéo dài gần như xuyên suốt timeline và có dạng nét thẳng/dọc lặp lại, khác hẳn nhiễu nền hoặc nhạc bình thường. Đây là dấu hiệu mạnh rằng dữ liệu đã được "vẽ" vào miền tần số.
+
+Dải đó quá cao để đọc trực tiếp bằng mắt nếu nhìn toàn bộ spectrogram, nên mình lọc riêng nó ra:
 
 ```bash
 $ ffmpeg -hide_banner -y -i lyknctf_audio.wav \
@@ -82,7 +86,15 @@ $ sox lyknctf_audio_hidden_band.wav lyknctf_sstv_down_5x.wav \
   pitch -2786 sinc 1000-2500 gain -n -3
 ```
 
-`-2786` cents xấp xỉ `log2(1/5) * 1200`, tức hạ tần số về khoảng một phần năm. Sau khi tạo spectrogram cho bản đã hạ pitch, chữ hiện ra lặp lại:
+`-2786` cents xấp xỉ `log2(1/5) * 1200`, tức hạ tần số về khoảng một phần năm. Sau bước này, dải `6.5 kHz - 11.5 kHz` rơi xuống khoảng `1.3 kHz - 2.3 kHz`, vừa đủ để nét chữ trên spectrogram dễ đọc hơn.
+
+![Spectrogram sau khi lọc dải cao và hạ pitch 5 lần](/images/write-ups/lycknctf-2026-thanh-hoa-1/lyknctf_sstv_down_5x_spectrogram.png)
+
+Nhìn toàn cảnh thì chữ vẫn bị kéo rất dài theo trục thời gian, nên mình crop một đoạn đầu để đọc rõ từng ký tự:
+
+![Crop đoạn chữ ẩn trong spectrogram: `RAUMAPHATAU`](/images/write-ups/lycknctf-2026-thanh-hoa-1/lyknctf_down_5x_text_0_60_crop.png)
+
+Sau khi crop, chuỗi hiện ra lặp lại:
 
 ```
 RAUMAPHATAU

@@ -132,6 +132,10 @@ Output #0, image2, to 'attached.png':
 frame=    1 ... video:446KiB
 ```
 
+![Attached PNG được trích từ stream `#0:2` của MP4](/images/write-ups/lycknctf-2026-thanh-hoa-2/attached.png)
+
+Nhìn bằng mắt thường, ảnh chỉ giống một frame/cover bị out-of-focus, không có chữ hay QR rõ ràng. Đây là điểm hợp lý với LSB steganography: phần nhìn thấy của ảnh vẫn bình thường, còn dữ liệu nằm ở bit thấp nhất của từng kênh màu.
+
 Kiểm tra file:
 
 ```bash
@@ -183,7 +187,9 @@ matches = 21600
 NEMCHUATHANHHOA
 ```
 
-Chuỗi `NEMCHUATHANHHOA` lặp lại rất nhiều lần trong LSB. Nó cũng khớp chủ đề Thanh Hóa: nem chua Thanh Hóa.
+![Preview ASCII đầu tiên decode từ RGB LSB stream](/images/write-ups/lycknctf-2026-thanh-hoa-2/lsb-password-preview.png)
+
+Preview này không phải ảnh minh họa thủ công; nó được render từ chính byte stream sau khi gom các bit `R LSB -> G LSB -> B LSB`. Việc `NEMCHUATHANHHOA` lặp lại `21600` lần giúp mình tự tin rằng đây không phải nhiễu ngẫu nhiên. Chuỗi cũng khớp chủ đề Thanh Hóa: nem chua Thanh Hóa.
 
 ---
 
