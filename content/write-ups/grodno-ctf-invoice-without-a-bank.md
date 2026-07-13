@@ -2,8 +2,8 @@
 title = 'Invoice Without a Bank — Write-up'
 date = '2026-07-14T01:14:58+07:00'
 draft = false
-tags = ['forensics', 'email', 'GrodnoCTF', 'eml', 'phishing']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['email', 'GrodnoCTF', 'eml', 'phishing']
+categories = ['Forensics']
 +++
 
 # CTF Write-up: Invoice Without a Bank

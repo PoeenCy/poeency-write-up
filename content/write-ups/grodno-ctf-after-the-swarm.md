@@ -2,8 +2,8 @@
 title = 'After The Swarm — Write-up'
 date = '2026-07-14T01:01:48+07:00'
 draft = false
-tags = ['forensics', 'network', 'GrodnoCTF', 'pcap', 'mirai', 'iot']
-categories = ['CTF Write-ups', 'Forensics', 'Network']
+tags = ['GrodnoCTF', 'pcap', 'mirai']
+categories = ['Forensics', 'Networking', 'IoT']
 +++
 
 # CTF Write-up: After The Swarm

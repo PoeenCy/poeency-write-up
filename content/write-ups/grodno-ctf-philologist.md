@@ -2,8 +2,8 @@
 title = 'Philologist — Write-up'
 date = '2026-07-13T23:46:54+07:00'
 draft = false
-tags = ['forensics', 'misc', 'GrodnoCTF', 'git', 'git-log']
-categories = ['CTF Write-ups', 'Forensics', 'Misc']
+tags = ['GrodnoCTF', 'git', 'git-log']
+categories = ['Forensics']
 +++
 
 # [Grodno CTF] Philologist - Writeup (Forensics)

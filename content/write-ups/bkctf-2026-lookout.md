@@ -2,8 +2,8 @@
 title = 'Lookout — Write-up'
 date = '2026-06-13T23:00:00+07:00'
 draft = false
-tags = ['forensics', 'BKCTF2026', 'malware', 'c2', 'specula', 'outlook', 'windows']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['BKCTF2026', 'malware', 'c2', 'specula', 'outlook', 'windows']
+categories = ['Forensics']
 mermaid = true
 +++
 

@@ -2,8 +2,8 @@
 title = 'Thanh Hoa 2 - Write-up'
 date = '2026-07-14T02:23:00+07:00'
 draft = false
-tags = ['forensics', 'LYCKNCTF2026', 'mp4', 'png', 'lsb', 'zip-carving']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['LYCKNCTF2026', 'mp4', 'png', 'lsb', 'zip-carving']
+categories = ['Forensics']
 +++
 
 # CTF Write-up: Thanh Hoa 2

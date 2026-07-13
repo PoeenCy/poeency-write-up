@@ -2,8 +2,8 @@
 title = 'Enterprise Routing & Simulation: A Journey Exploring Advanced Computer Networks'
 date = '2026-05-12T17:40:00+07:00'
 draft = false
-tags = ['Computer Networks', 'Routing', 'Network Simulation', 'Python', 'Zero Trust', 'IPv6']
-categories = ['Network Engineering', 'Lab', 'Blog']
+tags = ['routing', 'network-simulation', 'Python', 'zero-trust', 'IPv6']
+categories = ['Networking']
 +++
 
 **Overview:**  

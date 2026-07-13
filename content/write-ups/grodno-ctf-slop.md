@@ -2,8 +2,8 @@
 title = 'Slop — Write-up'
 date = '2026-07-14T01:41:05+07:00'
 draft = false
-tags = ['ai', 'steganography', 'misc', 'GrodnoCTF', 'llm', 'qwen']
-categories = ['CTF Write-ups', 'AI', 'Steganography']
+tags = ['GrodnoCTF', 'llm', 'qwen']
+categories = ['AI', 'Steganography']
 +++
 
 # CTF Write-up: Slop

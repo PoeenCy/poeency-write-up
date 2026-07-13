@@ -2,8 +2,8 @@
 title = 'Remedy - Write-up'
 date = '2026-07-14T02:20:00+07:00'
 draft = false
-tags = ['forensics', 'cryptography', 'LYCKNCTF2026', 'exiftool', 'xor', 'known-plaintext']
-categories = ['CTF Write-ups', 'Forensics', 'Cryptography']
+tags = ['LYCKNCTF2026', 'exiftool', 'xor', 'known-plaintext']
+categories = ['Forensics', 'Cryptography']
 +++
 
 # CTF Write-up: Remedy

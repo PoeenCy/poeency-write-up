@@ -2,8 +2,8 @@
 title = 'Network Traffic Engineering: NFStream & CIC-IDS Pipeline'
 date = '2026-05-12T17:35:00+07:00'
 draft = false
-tags = ['Network Engineering', 'Data Pipeline', 'NFStream', 'Machine Learning', 'Python']
-categories = ['Cyber Security', 'Network Engineering']
+tags = ['data-pipeline', 'NFStream', 'Python', 'NIDS', 'CIC-IDS2017']
+categories = ['Security', 'Networking', 'Machine Learning']
 +++
 
 # Giải Quyết "Khoảng Cách Triển Khai" Trong NIDS Với Pipeline NFStream

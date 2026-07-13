@@ -2,8 +2,8 @@
 title = "The USB That Wouldn't Repeat — Write-up"
 date = '2026-07-14T01:23:20+07:00'
 draft = false
-tags = ['forensics', 'GrodnoCTF', 'disk-imaging', 'ftk-imager', 'usb']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['GrodnoCTF', 'disk-imaging', 'ftk-imager', 'usb']
+categories = ['Forensics']
 +++
 
 # CTF Write-up: The USB That Wouldn't Repeat

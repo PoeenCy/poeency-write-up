@@ -2,8 +2,8 @@
 title = 'Follow The Layer - Write-up'
 date = '2026-07-14T02:21:00+07:00'
 draft = false
-tags = ['forensics', 'osint', 'LYCKNCTF2026', 'blockchain', 'tron', 'trc20', 'ofac']
-categories = ['CTF Write-ups', 'Forensics', 'OSINT']
+tags = ['LYCKNCTF2026', 'blockchain', 'tron', 'trc20', 'ofac']
+categories = ['Forensics', 'OSINT']
 +++
 
 # CTF Write-up: Follow The Layer

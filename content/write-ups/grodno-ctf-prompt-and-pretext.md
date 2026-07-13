@@ -2,8 +2,8 @@
 title = 'Prompt and Pretext — Write-up'
 date = '2026-07-14T01:18:21+07:00'
 draft = false
-tags = ['forensics', 'GrodnoCTF', 'windows', 'powershell', 'evtx', 'credential-phishing']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['GrodnoCTF', 'windows', 'powershell', 'evtx', 'credential-phishing']
+categories = ['Forensics']
 +++
 
 # CTF Write-up: Prompt and Pretext

@@ -2,8 +2,8 @@
 title = 'Pinned to Yesterday — Write-up'
 date = '2026-07-13T23:56:25+07:00'
 draft = false
-tags = ['forensics', 'GrodnoCTF', 'windows', 'registry', 'prefetch', 'shellbags']
-categories = ['CTF Write-ups', 'Forensics']
+tags = ['GrodnoCTF', 'windows', 'registry', 'prefetch', 'shellbags']
+categories = ['Forensics']
 +++
 
 # CTF Write-up: Pinned to Yesterday

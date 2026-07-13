@@ -2,8 +2,8 @@
 title = 'Crypto For Kindergarten — Write-up'
 date = '2026-06-10T22:55:59+07:00'
 draft = false
-tags = ['crypto', 'bkctf', 'BKCTF2026', 'math', 'lattice']
-categories = ['CTF Write-ups', 'Cryptography']
+tags = ['BKCTF2026', 'math', 'lattice']
+categories = ['Cryptography']
 +++
 
 # Crypto For Kindergarten — Write-up
