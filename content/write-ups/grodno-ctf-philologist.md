@@ -12,6 +12,8 @@ categories = ['CTF Write-ups', 'Forensics', 'Misc']
 
 ---
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQDR5y97Ew4SRbDPYfWwigO6AaQGhfewXRoSeNQ2Ku2C4nM?e=32JFm0)
+
 ## 1. Phân tích ngữ nghĩa học và Thu thập thông tin ban đầu
 
 Thử thách bắt đầu bằng một cái tên khá trừu tượng: **"Philologist"** (Nhà ngôn ngữ học) và một bài thơ viết bằng tiếng Nga.

@@ -25,6 +25,8 @@ categories = ['CTF Write-ups', 'Forensics']
 > **Flag format:** `grodno{function_marker}`
 > **Example:** `grodno{DoStuff_STAGE2}`
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQCvVzc0RtfFT73eLxxh4B7bARpv-MHo1ZrWf1feWi2yKyc?e=pi2Bzd)
+
 ---
 
 ## Nhận file và kiểm tra nhanh

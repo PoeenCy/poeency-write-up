@@ -29,6 +29,8 @@ categories = ['CTF Write-ups', 'Forensics', 'Network']
 > - The size of the first client payload in that control session.
 > - The sizes of the first three server payloads in the same session.
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQDL_EvDMIzyS7R5fQ6VKniXAZe-UImTDbuLLucAV5zQSoM?e=F5pYLw)
+
 ---
 
 ## Nhận file và kiểm tra nhanh

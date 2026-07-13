@@ -25,6 +25,8 @@ categories = ['CTF Write-ups', 'Forensics']
 > Flag: `grodno{pdf_folder_exe}`
 > Example: `grodno{doc.pdf_tools_notepad.exe}`
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQD4O2TDL68jQ7ZERm40wy5WAQWUQ4UEwJPBbX9FTjEA79Y?e=If7Phn)
+
 ---
 
 ## Nhận file và kiểm tra nhanh

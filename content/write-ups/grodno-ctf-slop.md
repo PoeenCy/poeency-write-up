@@ -26,6 +26,8 @@ categories = ['CTF Write-ups', 'AI', 'Steganography']
 > Runtime: llama-cpp-python==0.3.16
 > Flag format: grodno{}
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/f/c/2f661437c52d8a10/IgD-Vke1R8LiS6a2DgN-I4ekASw-1r-k8t24cxKh3RX1CQA?e=j0mHCL)
+
 File đính kèm: `message.txt`
 
 ---

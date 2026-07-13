@@ -22,6 +22,8 @@ categories = ['CTF Write-ups', 'Forensics']
 >
 > Password to archive: `Infected`
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQDfISqXTs41SIn0YpXKeHPaAXhb_iJLsgnNQQKfRL0ovyw?e=3gNPz6)
+
 ---
 
 ## Nhận file và kiểm tra nhanh

@@ -23,6 +23,8 @@ categories = ['CTF Write-ups', 'Forensics']
 >
 > Flag format: `grodno{md5_first_md5_second}`
 
+**Tải về đề bài:** [challenge files — OneDrive](https://1drv.ms/u/c/2f661437c52d8a10/IQDNhKqLrc7zSpg15bSfLgLcAcvfEFJKjWiAbRPcVUE3eDY?e=EM6nY2)
+
 ---
 
 ## Nhận file và kiểm tra nhanh
