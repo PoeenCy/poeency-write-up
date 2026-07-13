@@ -1,5 +1,6 @@
 ---
-title: "Tìm Kiếm"
+title: "Search"
 layout: "search"
-summary: "Tìm kiếm các bài viết, blog và write-up"
+summary: "Search posts and browse by content type, category, or tag."
+placeholder: "Search posts"
 ---

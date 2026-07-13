@@ -1,0 +1,107 @@
+{{- define "main" }}
+
+{{- $writeUps := where site.RegularPages "Section" "write-ups" -}}
+{{- $blogs := where site.RegularPages "Section" "blogs" -}}
+{{- $categoryTerms := .Site.Taxonomies.categories.ByCount -}}
+{{- $tagTerms := .Site.Taxonomies.tags.ByCount -}}
+
+<header class="page-header search-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Summary }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<section class="search-panel" aria-labelledby="site-search-heading">
+    <h2 id="site-search-heading" class="search-section-title">Search Posts</h2>
+    <div id="searchbox" class="searchbox">
+        <input id="searchInput" disabled placeholder="{{ .Params.placeholder | default "Search posts" }}"
+            aria-label="Search posts" type="search" autocomplete="off" maxlength="64">
+        <ul id="searchResults" class="searchResults" aria-label="Search results"></ul>
+    </div>
+</section>
+
+<section class="search-panel" aria-labelledby="browse-heading">
+    <div class="search-section-heading">
+        <h2 id="browse-heading" class="search-section-title">Browse</h2>
+        <input id="taxonomyFilter" class="taxonomy-filter" type="search" placeholder="Filter categories or tags"
+            aria-label="Filter categories or tags" autocomplete="off">
+    </div>
+
+    <div class="content-type-grid">
+        {{- with site.GetPage "/write-ups" }}
+        <a class="content-type-link" href="{{ .RelPermalink }}">
+            <span>Write-ups</span>
+            <strong>{{ len $writeUps }}</strong>
+        </a>
+        {{- end }}
+        {{- with site.GetPage "/blogs" }}
+        <a class="content-type-link" href="{{ .RelPermalink }}">
+            <span>Blogs</span>
+            <strong>{{ len $blogs }}</strong>
+        </a>
+        {{- end }}
+    </div>
+</section>
+
+<section class="search-panel taxonomy-section" aria-labelledby="categories-heading">
+    <h2 id="categories-heading" class="search-section-title">Categories</h2>
+    <div class="taxonomy-grid">
+        {{- range $categoryTerms }}
+        {{- with .Page }}
+        <a class="taxonomy-chip" href="{{ .RelPermalink }}" data-filter="{{ .Title | plainify | lower }}">
+            <span>{{ .Title }}</span>
+            <strong>{{ len .Pages }}</strong>
+        </a>
+        {{- end }}
+        {{- end }}
+    </div>
+</section>
+
+<section class="search-panel taxonomy-section" aria-labelledby="top-tags-heading">
+    <h2 id="top-tags-heading" class="search-section-title">Top Tags</h2>
+    <div class="taxonomy-grid taxonomy-grid-compact">
+        {{- range first 24 $tagTerms }}
+        {{- with .Page }}
+        <a class="taxonomy-chip taxonomy-chip-small" href="{{ .RelPermalink }}" data-filter="{{ .Title | plainify | lower }}">
+            <span>#{{ .Title }}</span>
+            <strong>{{ len .Pages }}</strong>
+        </a>
+        {{- end }}
+        {{- end }}
+    </div>
+
+    <details class="search-details">
+        <summary>All Tags</summary>
+        <div class="taxonomy-grid taxonomy-grid-compact">
+            {{- range .Site.Taxonomies.tags.Alphabetical }}
+            {{- with .Page }}
+            <a class="taxonomy-chip taxonomy-chip-small" href="{{ .RelPermalink }}" data-filter="{{ .Title | plainify | lower }}">
+                <span>#{{ .Title }}</span>
+                <strong>{{ len .Pages }}</strong>
+            </a>
+            {{- end }}
+            {{- end }}
+        </div>
+    </details>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterInput = document.getElementById("taxonomyFilter");
+        if (!filterInput) return;
+
+        const chips = Array.from(document.querySelectorAll(".taxonomy-chip"));
+        const allTags = document.querySelector(".search-details");
+        filterInput.addEventListener("input", function () {
+            const query = filterInput.value.trim().toLowerCase();
+            if (allTags) allTags.open = query.length > 0;
+            chips.forEach(function (chip) {
+                const text = chip.dataset.filter || chip.textContent.toLowerCase();
+                chip.classList.toggle("is-hidden", query.length > 0 && !text.includes(query));
+            });
+        });
+    });
+</script>
+
+{{- end }}{{/* end main */}}

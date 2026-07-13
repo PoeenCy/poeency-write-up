@@ -1,7 +1,8 @@
 baseURL = 'https://poeency.github.io/poeency-write-up/'
-canonifyURLs = true
+canonifyURLs = false
 locale = 'en-us'
 title = 'Nha Tran Thanh | Portfolio'
+copyright = '© 2026 [Nha Tran Thanh | Portfolio](/poeency-write-up/)'
 theme = 'PaperMod'
 
 [params]
@@ -15,6 +16,13 @@ ShowReadingTime = false
 ShowCodeCopyButtons = true
 ShowToc = true
 ShowBreadCrumbs = true
+
+[params.fuseOpts]
+keys = ['title', 'permalink', 'summary', 'content', 'section', 'categories', 'tags']
+threshold = 0.35
+distance = 100
+ignoreLocation = true
+limit = 12
 
 [params.profileMode]
 enabled = true

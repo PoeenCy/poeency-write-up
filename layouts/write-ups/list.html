@@ -26,26 +26,6 @@
 </div>
 {{- end }}
 
-<div class="taxonomies-nav" style="margin-bottom: 3rem; padding: 1.5rem; background: var(--entry); border: 1px solid var(--border); border-radius: 8px;">
-  <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Explore by Category</h3>
-  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-    {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-      {{ with site.GetPage (printf "/categories/%s" $name) }}
-      <a href="{{ .RelPermalink }}" style="padding: 0.3rem 0.8rem; background: var(--tertiary); color: var(--primary); border-radius: 20px; font-size: 0.85rem; text-decoration: none; border: 1px solid var(--border);">{{ $name | humanize | title }} <span style="opacity: 0.7; font-size: 0.8em; margin-left: 2px;">{{ len $taxonomy.Pages }}</span></a>
-      {{ end }}
-    {{ end }}
-  </div>
-
-  <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary);">Popular Tags</h3>
-  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-      {{ with site.GetPage (printf "/tags/%s" $name) }}
-      <a href="{{ .RelPermalink }}" style="padding: 0.2rem 0.6rem; color: var(--secondary); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;">#{{ $name }}</a>
-      {{ end }}
-    {{ end }}
-  </div>
-</div>
-
 {{- $pages := union .RegularPages .Sections }}
 
 {{- if .IsHome }}
@@ -96,7 +76,7 @@
     {{- partial "post_meta.html" . -}}
   </footer>
   {{- end }}
-  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .RelPermalink }}"></a>
 </article>
 {{- end }}
 
@@ -104,7 +84,7 @@
 <footer class="page-footer">
   <nav class="pagination">
     {{- if $paginator.HasPrev }}
-    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
+    <a class="prev" href="{{ $paginator.Prev.URL | relURL }}">
       «&nbsp;{{ i18n "prev_page" }}&nbsp;
       {{- if (.Param "ShowPageNums") }}
       {{- sub $paginator.PageNumber 1 }}/{{ $paginator.TotalPages }}
@@ -112,7 +92,7 @@
     </a>
     {{- end }}
     {{- if $paginator.HasNext }}
-    <a class="next" href="{{ $paginator.Next.URL | absURL }}">
+    <a class="next" href="{{ $paginator.Next.URL | relURL }}">
       {{- i18n "next_page" }}&nbsp;
       {{- if (.Param "ShowPageNums") }}
       {{- add 1 $paginator.PageNumber }}/{{ $paginator.TotalPages }}
