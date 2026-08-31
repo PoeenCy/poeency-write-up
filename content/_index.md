@@ -18,7 +18,6 @@ title = 'Home'
 | Project | Area | Key Result |
 |---|---|---|
 | [ESP32 BluFi Stack Overflow](blogs/esp32-blufi-stack-overflow/) | Vulnerability Research | Reproduced & patched BLE buffer overflow (NCC-BluFi-Ref-WXR) in Espressif firmware |
-| [Edge–Cloud IDS](blogs/edge-cloud-ids-aiot/) | AI / Network Security | Exploring practical intrusion-detection trade-offs for constrained network environments |
 | [WSN–LSTM Smart Parking](blogs/hybrid-wsn-lstm-smartparking/) | Network Simulation & AI | 2.8× network lifetime extension vs. LEACH protocol |
 | [NFStream CIC-IDS Pipeline](blogs/nfstream-cic-ids-pipeline/) | Data Engineering | End-to-end ML-ready PCAP flow extraction for edge-constrained devices |
 | [Advanced Computer Networks Lab](blogs/advanced-computer-networks-lab/) | Network Infrastructure | Enterprise routing topology simulation and protocol analysis |
