@@ -11,18 +11,19 @@ showToc = true
        style="border-radius:50%; width:150px; height:150px; object-fit:cover; box-shadow:0 4px 16px rgba(0,0,0,0.18);">
 </div>
 
-Third-year undergraduate at **Ton Duc Thang University**, majoring in Computer Networks and Data Communication. My work spans network infrastructure, IoT vulnerability research, and applying AI to intrusion detection — built on the belief that meaningful security starts with deep networking knowledge. Actively seeking internship opportunities in network security or systems administration.
+Final-year undergraduate at **Ton Duc Thang University**, majoring in Computer Networks and Data Communication. I am most interested in the defensive side of cybersecurity: understanding how systems communicate, examining network and log data, and turning that evidence into useful detection and response decisions. My current work combines network and IoT security research with hands-on Blue Team practice in traffic analysis, alert triage, basic detection engineering, and incident-investigation workflows. I am building toward an entry-level SOC or Blue Team role while continuing to strengthen my networking foundation.
 
 ---
 
-## Publication
+## Research & Blue Team Focus
 
-**"An Artificial Intelligence Approach to Intrusion Detection in Smart Home IoT Environments"**
-*Springer — ICCIES 2026 · Lead Author*
+My learning is centered on how defensive teams turn raw telemetry into sound decisions:
 
-Proposed a hybrid Edge–Cloud IDS: LightGBM deployed on a Raspberry Pi gateway (~8.4 ms latency) paired with a cloud-side CNN–LSTM model using incremental learning and knowledge distillation. Achieved **96.94% accuracy** and **97.01% F1-score** on the CIC-IDS2017 dataset.
-
-[Read on Springer](https://link.springer.com/chapter/10.1007/978-3-032-21628-1_41)
+- **Network and IoT security research:** studying protocols, architectures, and common failure modes to understand where practical defenses matter most.
+- **Monitoring and detection:** working with network traffic and logs to identify suspicious behavior, document observations, and form detection ideas.
+- **SOC investigation foundations:** practising a repeatable workflow for alert triage, evidence scoping, timeline building, and concise incident reporting.
+- **Security automation:** using Python and lightweight tooling to make repetitive analysis more consistent and easier to review.
+- **Adversary awareness:** using CTFs and vulnerability research to understand attacker techniques, then translating that perspective into defensive questions.
 
 ---
 
@@ -33,10 +34,11 @@ Proposed a hybrid Edge–Cloud IDS: LightGBM deployed on a Raspberry Pi gateway 
 - **Tools & Simulation:** Wireshark, tcpdump, Mininet, and enterprise routing simulation.
 - **System Administration:** Linux (Ubuntu) environment management and Bash scripting.
 
-### Cybersecurity & Network Analysis
-- **Traffic Analysis:** Extracting and analyzing network flows (PCAP, NFStream) for machine learning applications.
-- **Vulnerability Research:** Experience with low-level vulnerability reproduction — e.g., Buffer Overflows in embedded/IoT systems.
-- **Offensive Security:** Practical knowledge of Web Exploitation (OWASP Top 10) and hands-on CTF participation.
+### Blue Team & SOC Foundations
+- **Network Monitoring:** Analysing PCAPs, flows, and logs with Wireshark, tcpdump, and NFStream to understand normal and suspicious activity.
+- **Alert Triage & Investigation:** Practising evidence collection, scoping, timeline construction, and clear documentation for security events.
+- **Detection Mindset:** Developing detection ideas from observable attacker behavior and mapping notes to MITRE ATT&CK where helpful.
+- **Security Research:** Investigating low-level issues in IoT and embedded systems, including buffer-overflow reproduction, to better understand defensive controls.
 
 ### Programming & Data Science
 - **Languages:** Python (primary — scripting, automation, data engineering), basic C and C#.
@@ -44,12 +46,12 @@ Proposed a hybrid Edge–Cloud IDS: LightGBM deployed on a Raspberry Pi gateway 
 
 ---
 
-## Current Focus
+## Current Direction
 
-- Core network infrastructure design and simulation
-- Vulnerability research in IoT and embedded systems
-- Applying data engineering and ML to network security problems
-- Participating in CTF competitions to sharpen offensive understanding
+- Researching network and IoT security problems with a defender’s perspective
+- Building Blue Team skills in monitoring, log analysis, alert triage, and incident investigation
+- Learning SOC workflows, including evidence handling, escalation context, and concise reporting
+- Automating repeatable security-analysis tasks with Python and lightweight tooling
 
 ---
 
