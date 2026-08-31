@@ -135,26 +135,32 @@
         border-bottom: 1px solid var(--border);
     }
 
-    /* ── Current role & focus ─────────────────────────────── */
-    .hp-focus {
+    /* ── Publication ─────────────────────────────────────── */
+    .hp-pub {
         margin-bottom: 0.5rem;
     }
 
-    .hp-focus-kicker {
+    .hp-pub-venue {
         font-size: 0.8rem;
         color: var(--secondary);
         margin-bottom: 0.3rem;
     }
 
-    .hp-focus-summary {
+    .hp-pub-title {
         font-size: 0.95rem;
         font-weight: 600;
         color: var(--primary);
+        text-decoration: none;
         line-height: 1.5;
-        margin: 0;
+        display: inline;
     }
 
-    .hp-focus-tags {
+    .hp-pub-title:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
+    }
+
+    .hp-pub-stats {
         display: flex;
         flex-wrap: wrap;
         gap: 0.4rem;

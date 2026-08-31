@@ -15,15 +15,14 @@ Final-year undergraduate at **Ton Duc Thang University**, majoring in Computer N
 
 ---
 
-## Research & Blue Team Focus
+## Publication
 
-My learning is centered on how defensive teams turn raw telemetry into sound decisions:
+**"An Artificial Intelligence Approach to Intrusion Detection in Smart Home IoT Environments"**
+*Springer — ICCIES 2026 · Lead Author*
 
-- **Network security research:** studying protocols, architectures, and common failure modes to understand where practical defenses matter most.
-- **Monitoring and detection:** working with network traffic and logs to identify suspicious behavior, document observations, and form detection ideas.
-- **SOC investigation foundations:** practising a repeatable workflow for alert triage, evidence scoping, timeline building, and concise incident reporting.
-- **Security automation:** using Python and lightweight tooling to make repetitive analysis more consistent and easier to review.
-- **Adversary awareness:** using CTFs and vulnerability research to understand attacker techniques, then translating that perspective into defensive questions.
+Proposed a hybrid Edge–Cloud IDS: LightGBM deployed on a Raspberry Pi gateway (~8.4 ms latency) paired with a cloud-side CNN–LSTM model using incremental learning and knowledge distillation. Achieved **96.94% accuracy** and **97.01% F1-score** on the CIC-IDS2017 dataset.
+
+[Read on Springer](https://link.springer.com/chapter/10.1007/978-3-032-21628-1_41)
 
 ---
 
