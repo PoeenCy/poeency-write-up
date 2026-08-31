@@ -8,8 +8,8 @@ theme = 'PaperMod'
 [params]
 math = true
 env = "production"
-description = "Personal portfolio documenting network and IoT security research, Blue Team practice, and SOC-focused security analysis."
-subtitle = "Sinh viên năm cuối · Nghiên cứu Network & IoT Security · Blue Team / SOC"
+description = "Personal portfolio documenting network security, Blue Team practice, and SOC-focused security analysis."
+subtitle = "Sinh viên năm cuối · Network Security · Blue Team / SOC"
 author = "Nha Tran Thanh (Poeency)"
 defaultTheme = "auto"
 ShowReadingTime = false
@@ -27,7 +27,7 @@ limit = 12
 [params.profileMode]
 enabled = true
 title = "Nha Tran Thanh"
-subtitle = "Sinh viên năm cuối · Nghiên cứu Network & IoT Security · Blue Team / SOC"
+subtitle = "Sinh viên năm cuối · Network Security · Blue Team / SOC"
 imageUrl = "images/about/profile.jpg"
 imageWidth = 160
 imageHeight = 160

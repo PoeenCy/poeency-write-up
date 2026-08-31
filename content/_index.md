@@ -6,7 +6,7 @@ title = 'Home'
 
 | Area | Current direction | Practice |
 |---|---|---|
-| **Network & IoT Security Research** | Understand how networks and embedded systems fail, communicate, and can be defended | Protocol analysis, vulnerability research, lab work |
+| **Network Security Research** | Understand how networked systems fail, communicate, and can be defended | Protocol analysis, vulnerability research, lab work |
 | **Blue Team Monitoring** | Turn logs and network telemetry into useful security signals | Wireshark, tcpdump, NFStream, log analysis |
 | **SOC Investigation** | Build a repeatable workflow for triage, scoping, investigation, and reporting | Alert review, timeline building, evidence documentation |
 | **Detection & Automation** | Reduce repetitive analysis and make detections easier to act on | Python scripting, MITRE ATT&CK-oriented notes, dashboards |

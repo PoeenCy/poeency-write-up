@@ -11,7 +11,7 @@ showToc = true
        style="border-radius:50%; width:150px; height:150px; object-fit:cover; box-shadow:0 4px 16px rgba(0,0,0,0.18);">
 </div>
 
-Final-year undergraduate at **Ton Duc Thang University**, majoring in Computer Networks and Data Communication. I am most interested in the defensive side of cybersecurity: understanding how systems communicate, examining network and log data, and turning that evidence into useful detection and response decisions. My current work combines network and IoT security research with hands-on Blue Team practice in traffic analysis, alert triage, basic detection engineering, and incident-investigation workflows. I am building toward an entry-level SOC or Blue Team role while continuing to strengthen my networking foundation.
+Final-year undergraduate at **Ton Duc Thang University**, majoring in Computer Networks and Data Communication. I currently work as a **SOC Analyst** and am most interested in the defensive side of cybersecurity: understanding how systems communicate, examining network and log data, and turning that evidence into useful detection and response decisions. My work includes traffic analysis, alert triage, detection engineering, and incident-investigation workflows. Alongside day-to-day SOC work, I continue to strengthen my networking and security foundation.
 
 ---
 
@@ -19,7 +19,7 @@ Final-year undergraduate at **Ton Duc Thang University**, majoring in Computer N
 
 My learning is centered on how defensive teams turn raw telemetry into sound decisions:
 
-- **Network and IoT security research:** studying protocols, architectures, and common failure modes to understand where practical defenses matter most.
+- **Network security research:** studying protocols, architectures, and common failure modes to understand where practical defenses matter most.
 - **Monitoring and detection:** working with network traffic and logs to identify suspicious behavior, document observations, and form detection ideas.
 - **SOC investigation foundations:** practising a repeatable workflow for alert triage, evidence scoping, timeline building, and concise incident reporting.
 - **Security automation:** using Python and lightweight tooling to make repetitive analysis more consistent and easier to review.
@@ -38,7 +38,7 @@ My learning is centered on how defensive teams turn raw telemetry into sound dec
 - **Network Monitoring:** Analysing PCAPs, flows, and logs with Wireshark, tcpdump, and NFStream to understand normal and suspicious activity.
 - **Alert Triage & Investigation:** Practising evidence collection, scoping, timeline construction, and clear documentation for security events.
 - **Detection Mindset:** Developing detection ideas from observable attacker behavior and mapping notes to MITRE ATT&CK where helpful.
-- **Security Research:** Investigating low-level issues in IoT and embedded systems, including buffer-overflow reproduction, to better understand defensive controls.
+- **Security Research:** Investigating low-level issues in networked systems, including buffer-overflow reproduction, to better understand defensive controls.
 
 ### Programming & Data Science
 - **Languages:** Python (primary — scripting, automation, data engineering), basic C and C#.
@@ -48,7 +48,7 @@ My learning is centered on how defensive teams turn raw telemetry into sound dec
 
 ## Current Direction
 
-- Researching network and IoT security problems with a defender’s perspective
+- Researching network-security problems with a defender’s perspective
 - Building Blue Team skills in monitoring, log analysis, alert triage, and incident investigation
 - Learning SOC workflows, including evidence handling, escalation context, and concise reporting
 - Automating repeatable security-analysis tasks with Python and lightweight tooling
